@@ -1,0 +1,12 @@
+# ignore all by default
+*
+
+!.gitignore
+
+# shell configs
+!.zshrc
+!.bashrc
+
+# configs
+!.config/
+!.config/**
