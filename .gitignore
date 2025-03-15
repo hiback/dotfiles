@@ -14,4 +14,6 @@
 !.config/**
 
 # exception configs
+.DS_Store
 .config/raycast
+.config/background
