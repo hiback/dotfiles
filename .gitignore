@@ -9,6 +9,9 @@
 !.zshrc
 !.bashrc
 
-# configs
+# track all configs
 !.config/
 !.config/**
+
+# exception configs
+.config/raycast
