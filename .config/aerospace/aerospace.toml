@@ -54,6 +54,13 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 # Also see: https://nikitabobko.github.io/AeroSpace/goodies#disable-hide-app
 automatically-unhide-macos-hidden-apps = false
 
+[[on-window-detected]]
+if.app-name-regex-substring = '.exe'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.codeweavers.CrossOver'
+run = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
