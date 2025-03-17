@@ -1,19 +1,23 @@
-# ignore all by default
+# Ignore all by default
 *
 
+# Project basics
 !.gitignore
 !README.md
 !LICENSE
 
-# shell configs
+# Setup script
+!setup.sh
+
+# Shell configs
 !.zshrc
 !.bashrc
 
-# track all configs
+# Track all configs
 !.config/
 !.config/**
 
-# exception configs
+# Exception configs
 .DS_Store
 .config/raycast
 .config/background

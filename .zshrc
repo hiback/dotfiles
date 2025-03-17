@@ -1,6 +1,9 @@
 # Starship
 eval "$(starship init zsh)"
 
+# Zsh-vi-mode
+source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+
 # fnm
 eval "$(fnm env --use-on-cd --shell zsh)"
 
