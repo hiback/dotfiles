@@ -28,8 +28,13 @@ git fetch --all
 git reset --hard origin/main
 
 # Install Homebrew
+NONINTERACTIVE=1
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-eval "$($(brew --prefix)/bin/brew shellenv)"
+if [[ "$OS" = "mac" ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+else
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
 brew install gcc
 
 # Install starship
