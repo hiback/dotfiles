@@ -12,6 +12,7 @@
 # Shell configs
 !.zshrc
 !.bashrc
+!.bash_aliases
 
 # Track all configs
 !.config/
