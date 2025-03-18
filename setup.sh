@@ -37,6 +37,7 @@ if [[ "$OS" = "mac" ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 else
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  ulimit -n 4096
 fi
 brew install gcc
 
@@ -49,7 +50,7 @@ if [ "$OS" = "mac" ]; then
 fi
 
 # Install yazi and dependencies
-# brew install ffmpeg # no install by default
+brew install ffmpeg
 brew install sevenzip
 brew install jq
 brew install poppler
