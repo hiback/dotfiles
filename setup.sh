@@ -1,7 +1,29 @@
 #!/bin/bash
 
+getc() {
+  local save_state
+  save_state="$(/bin/stty -g)"
+  /bin/stty raw -echo
+  IFS='' read -r -n 1 -d '' "$@"
+  /bin/stty "${save_state}"
+}
+
+wait_for_user() {
+  local c
+  echo
+  echo -e "\033[0;31mWarning: This setup script will overwrite dotfiles that already exist.\033[0m"
+  echo "Press RETURN/ENTER to continue or any other key to abort:"
+  getc c
+  if ! [[ "${c}" == $'\r' || "${c}" == $'\n' ]]; then
+    exit 1
+  fi
+}
+
 # Stop on error
 set -e
+
+# Warning for overwrite
+wait_for_user
 
 # Get OS information
 case "$(uname)" in
@@ -27,6 +49,7 @@ git remote add origin https://github.com/hiback/dotfiles.git
 git fetch --all
 git reset --hard origin/main
 rm -rf .git
+rm .gitignore
 rm LICENSE
 rm README.md
 rm setup.sh
