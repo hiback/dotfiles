@@ -49,7 +49,7 @@ if [ "$OS" = "mac" ]; then
 fi
 
 # Install yazi and dependencies
-brew install ffmpeg
+# brew install ffmpeg # no install by default
 brew install sevenzip
 brew install jq
 brew install poppler
