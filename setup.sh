@@ -26,10 +26,13 @@ git init
 git remote add origin https://github.com/hiback/dotfiles.git
 git fetch --all
 git reset --hard origin/main
+rm -rf .git
+rm LICENSE
+rm README.md
+rm setup.sh
 
 # Install Homebrew
-NONINTERACTIVE=1
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 if [[ "$OS" = "mac" ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 else
