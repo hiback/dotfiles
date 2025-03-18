@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Stop on error
 set -e
@@ -15,8 +15,22 @@ esac
 
 echo "Running on $OS"
 
+# Debian packages
+if [ "$OS" = "linux" ]; then
+  sudo apt install build-essential git -y
+fi
+
+# Git pull dotfiles and overwrite existing files
+cd $HOME
+git init
+git remote add origin https://github.com/hiback/dotfiles.git
+git fetch --all
+git reset --hard origin/main
+
 # Install Homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval "$($(brew --prefix)/bin/brew shellenv)"
+brew install gcc
 
 # Install starship
 brew install starship
@@ -37,7 +51,7 @@ brew install fzf
 brew install zoxide
 brew install imagemagick
 if [ "$OS" = "mac" ]; then
-  brew install font-symbols-only-nerd-font
+  brew install -cask font-symbols-only-nerd-font
 fi
 brew install yazi
 
@@ -51,7 +65,7 @@ fnm install --lts
 brew install neovim
 
 # Install lazyvim
-brew install lazyvim
+brew install lazygit
 
 # Source rc file
 if [ "$OS" = "mac" ]; then
