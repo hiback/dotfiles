@@ -39,6 +39,7 @@ echo "Running on $OS"
 
 # Debian packages
 if [ "$OS" = "linux" ]; then
+  ulimit -n 4096
   sudo apt install build-essential git -y
 fi
 
@@ -60,7 +61,6 @@ if [[ "$OS" = "mac" ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 else
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-  ulimit -n 4096
 fi
 brew install gcc
 
@@ -73,7 +73,6 @@ if [ "$OS" = "mac" ]; then
 fi
 
 # Install yazi and dependencies
-brew install ffmpeg
 brew install sevenzip
 brew install jq
 brew install poppler
@@ -82,6 +81,7 @@ brew install ripgrep
 brew install fzf
 brew install zoxide
 brew install imagemagick
+brew install ffmpeg
 if [ "$OS" = "mac" ]; then
   brew install -cask font-symbols-only-nerd-font
 fi
