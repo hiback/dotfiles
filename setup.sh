@@ -43,18 +43,6 @@ if [ "$OS" = "linux" ]; then
   sudo apt install build-essential git -y
 fi
 
-# Git pull dotfiles and overwrite existing files
-cd $HOME
-git init
-git remote add origin https://github.com/hiback/dotfiles.git
-git fetch --all
-git reset --hard origin/main
-rm -rf .git
-rm .gitignore
-rm LICENSE
-rm README.md
-rm setup.sh
-
 # Install Homebrew
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 if [[ "$OS" = "mac" ]]; then
@@ -99,9 +87,19 @@ brew install neovim
 # Install lazyvim
 brew install lazygit
 
-# Source rc file
+# Install stow
+brew install stow
+
+# Git clone dotfiles and use gnu stow to create link
+cd $HOME
+git clone https://github.com/hiback/dotfiles.git
+cd dotfiles
+stow .
+
+# Prompt to source rc file
+echo "Setup done! Please run the following command to load configs"
 if [ "$OS" = "mac" ]; then
-  source ~/.zshrc
+  echo "source ~/.zshrc"
 else
-  source ~/.bashrc
+  echo "source ~/.bashrc"
 fi

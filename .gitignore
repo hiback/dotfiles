@@ -1,24 +1,8 @@
-# Ignore all by default
-*
-
-# Project basics
-!.gitignore
-!README.md
-!LICENSE
-
-# Setup script
-!setup.sh
-
-# Shell configs
-!.zshrc
-!.bashrc
-!.bash_aliases
-
-# Track all configs
-!.config/
-!.config/**
-
-# Exception configs
+# System
 .DS_Store
+
+# Raycast
 .config/raycast
+
+# Background images
 .config/background

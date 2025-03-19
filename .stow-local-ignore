@@ -1,0 +1,13 @@
+# Git
+.git
+.gitignore
+
+# system
+.DS_Store
+
+# Project essentials
+LICENSE
+README.md
+
+# Setup script
+setup.sh
