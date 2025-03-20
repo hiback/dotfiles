@@ -84,13 +84,13 @@ fnm install --lts
 # Install neovim
 brew install neovim
 
-# Install lazyvim
+# Install lazygit
 brew install lazygit
 
 # Install stow
 brew install stow
 
-# Git clone dotfiles and use gnu stow to create link
+# Git clone dotfiles and use gnu stow to create symlink
 cd $HOME
 git clone https://github.com/hiback/dotfiles.git
 cd dotfiles
@@ -113,7 +113,7 @@ if [ "$OS" = "mac" ]; then
   brew install --cask kitty
 fi
 
-# Prompt to source rc file
+# Finish prompt
 echo
 if [ "$OS" = "mac" ]; then
   echo "Setup done! Please close this terminal and launch kitty to continue."
