@@ -1,7 +1,7 @@
 ## Personal dotfiles
 ### macOS:
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/hiback/dotfiles/refs/heads/main/setup.sh)"
+sudo -v && /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/hiback/dotfiles/refs/heads/main/setup.sh)"
 ```
 ### Debian / Ubuntu:
 ```bash

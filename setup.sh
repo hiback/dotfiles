@@ -44,7 +44,7 @@ if [ "$OS" = "linux" ]; then
 fi
 
 # Install Homebrew
-NONINTERACTIVE=1 sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 if [[ "$OS" = "mac" ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 else
