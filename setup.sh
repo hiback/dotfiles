@@ -97,6 +97,18 @@ cd dotfiles
 stow . --adopt
 git restore .
 
+# Install GUI packages for macOS
+if [ "$OS" = "mac" ]; then
+  # Aerospace for tiling window managment
+  brew install --cask nikitabobko/tap/aerospace
+  # Sketchybar for custom menu bar
+  brew tap FelixKratz/formulae
+  brew install sketchybar
+  brew services start sketchybar
+  # Kitty terminal emulator
+  brew install --cask kitty
+fi
+
 # Prompt to source rc file
 echo "Setup done! Please run the following command to load configs:"
 if [ "$OS" = "mac" ]; then
