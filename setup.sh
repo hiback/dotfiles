@@ -71,7 +71,7 @@ brew install zoxide
 brew install imagemagick
 brew install ffmpeg
 if [ "$OS" = "mac" ]; then
-  brew install -cask font-symbols-only-nerd-font
+  brew install --cask font-symbols-only-nerd-font
 fi
 brew install yazi
 
