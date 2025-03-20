@@ -94,7 +94,7 @@ brew install stow
 cd $HOME
 git clone https://github.com/hiback/dotfiles.git
 cd dotfiles
-stow .
+stow . --adopt
 
 # Prompt to source rc file
 echo "Setup done! Please run the following command to load configs"
