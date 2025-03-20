@@ -114,9 +114,10 @@ if [ "$OS" = "mac" ]; then
 fi
 
 # Prompt to source rc file
-echo "Setup done! Please run the following command to load configs:"
+echo
 if [ "$OS" = "mac" ]; then
-  echo "source ~/.zshrc"
+  echo "Setup done! Please close this terminal and launch kitty to continue."
 else
+  echo "Setup done! Please run the following command to load configs:"
   echo "source ~/.bashrc"
 fi
