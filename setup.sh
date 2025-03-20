@@ -99,6 +99,9 @@ git restore .
 
 # Install GUI packages for macOS
 if [ "$OS" = "mac" ]; then
+  # Jetbrains font
+  brew install --cask font-jetbrains-mono
+  brew install --cask font-jetbrains-mono-nerd-font
   # Aerospace for tiling window managment
   brew install --cask nikitabobko/tap/aerospace
   # Sketchybar for custom menu bar
