@@ -102,13 +102,14 @@ if [ "$OS" = "mac" ]; then
   # Jetbrains font
   brew install --cask font-jetbrains-mono
   brew install --cask font-jetbrains-mono-nerd-font
-  # Aerospace for tiling window managment
-  brew install --cask nikitabobko/tap/aerospace
+  # JankyBorders
+  brew tap FelixKratz/formulae # For JankyBorders and Sketchybar
+  brew install borders
   # Sketchybar for custom menu bar
   brew install --cask font-hack-nerd-font
-  brew tap FelixKratz/formulae
   brew install sketchybar
-  brew services start sketchybar
+  # Aerospace for tiling window managment
+  brew install --cask nikitabobko/tap/aerospace
   # Kitty terminal emulator
   brew install --cask kitty
 fi
