@@ -105,6 +105,7 @@ if [ "$OS" = "mac" ]; then
   # Aerospace for tiling window managment
   brew install --cask nikitabobko/tap/aerospace
   # Sketchybar for custom menu bar
+  brew install --cask font-hack-nerd-font
   brew tap FelixKratz/formulae
   brew install sketchybar
   brew services start sketchybar
