@@ -1,6 +1,7 @@
 #!/bin/bash
 
 RED="\033[0;31m"
+GREEN="\033[0;32"
 NC="\033[0m"
 
 getc() {
@@ -111,8 +112,7 @@ fi
 # Finish prompt
 echo
 if [ "$OS" = "mac" ]; then
-  echo "Setup done! Please close this terminal and launch kitty to continue."
+  echo -e "${GREEN}Setup done! Please close this terminal and launch kitty to continue.${NC}"
 else
-  echo "Setup done! Please run the following command to load configs:"
-  echo "source ~/.bashrc"
+  echo -e "${GREEN}Setup done! Please reload this terminal to switch to zsh.${NC}"
 fi
