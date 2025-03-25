@@ -5,5 +5,5 @@ sudo -v && /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/hiback/d
 ```
 ### Debian / Ubuntu:
 ```bash
-sudo apt update -y && sudo apt upgrade -y && sudo apt install curl -y && /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/hiback/dotfiles/refs/heads/main/setup.sh)"
+sudo apt update && sudo apt upgrade -y && sudo apt install curl -y && /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/hiback/dotfiles/refs/heads/main/setup.sh)"
 ```

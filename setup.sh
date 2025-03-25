@@ -119,7 +119,7 @@ fi
 
 # Install zsh and set as default for linux
 if [ "$OS" = "linux" ]; then
-  brew install zsh
+  sudo apt install zsh
   zsh_path=$(which zsh)
   if [ ! -x zsh_path ]; then
     echo -e "${RED}Error: Zsh not found!${NC}"
