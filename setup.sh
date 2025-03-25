@@ -40,10 +40,11 @@ esac
 
 echo "Running on $OS"
 
-# Debian packages
+# Apt packages
 if [ "$OS" = "linux" ]; then
   ulimit -n 4096
-  sudo apt install build-essential git -y
+  sudo apt install build-essential git zsh -y
+  sudo chsh -s $(which zsh) $(whoami)
 fi
 
 # Install Homebrew
@@ -66,20 +67,10 @@ brew install starship
 brew install zsh-vi-mode
 
 # Install yazi and dependencies
-brew install sevenzip
-brew install jq
-brew install poppler
-brew install fd
-brew install ripgrep
-brew install fzf
-brew install zoxide
-brew install imagemagick
-brew install ffmpeg
-brew install yazi
+brew install yazi ffmpeg sevenzip jq poppler fd ripgrep fzf zoxide imagemagick
 
 # Install fnm
 brew install fnm
-
 # Install latest lts node.js
 fnm install --lts
 
@@ -115,17 +106,6 @@ if [ "$OS" = "mac" ]; then
   brew install --cask nikitabobko/tap/aerospace
   # Kitty terminal emulator
   brew install --cask kitty
-fi
-
-# Install zsh and set as default for linux
-if [ "$OS" = "linux" ]; then
-  sudo apt install zsh
-  zsh_path=$(which zsh)
-  if [ ! -x zsh_path ]; then
-    echo -e "${RED}Error: Zsh not found!${NC}"
-    exit 1
-  fi
-  chsh -s "$zsh_path"
 fi
 
 # Finish prompt
