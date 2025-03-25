@@ -1,5 +1,8 @@
 #!/bin/bash
 
+RED="\033[0;31m"
+NC="\033[0m"
+
 getc() {
   local save_state
   save_state="$(/bin/stty -g)"
@@ -11,7 +14,7 @@ getc() {
 wait_for_user() {
   local c
   echo
-  echo -e "\033[0;31mWarning: This setup script will overwrite dotfiles that already exist.\033[0m"
+  echo -e "${RED}Warning: This setup script will overwrite dotfiles that already exist.${NC}"
   echo "Press RETURN/ENTER to continue or any other key to abort:"
   getc c
   if ! [[ "${c}" == $'\r' || "${c}" == $'\n' ]]; then
@@ -46,8 +49,12 @@ fi
 # Install Homebrew
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 if [[ "$OS" = "mac" ]]; then
+  echo >"${HOME}/.zprofile"
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>"${HOME}/.zprofile"
   eval "$(/opt/homebrew/bin/brew shellenv)"
 else
+  echo >"${HOME}/.zprofile"
+  echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>"${HOME}/.zprofile"
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 brew install gcc
@@ -56,9 +63,7 @@ brew install gcc
 brew install starship
 
 # Install zsh-vi-mode
-if [ "$OS" = "mac" ]; then
-  brew install zsh-vi-mode
-fi
+brew install zsh-vi-mode
 
 # Install yazi and dependencies
 brew install sevenzip
@@ -70,9 +75,6 @@ brew install fzf
 brew install zoxide
 brew install imagemagick
 brew install ffmpeg
-if [ "$OS" = "mac" ]; then
-  brew install --cask font-symbols-only-nerd-font
-fi
 brew install yazi
 
 # Install fnm
@@ -99,9 +101,10 @@ git restore .
 
 # Install GUI packages for macOS
 if [ "$OS" = "mac" ]; then
-  # Jetbrains font
+  # fonts
   brew install --cask font-jetbrains-mono
   brew install --cask font-jetbrains-mono-nerd-font
+  brew install --cask font-symbols-only-nerd-font
   # JankyBorders
   brew tap FelixKratz/formulae # For JankyBorders and Sketchybar
   brew install borders
@@ -112,6 +115,17 @@ if [ "$OS" = "mac" ]; then
   brew install --cask nikitabobko/tap/aerospace
   # Kitty terminal emulator
   brew install --cask kitty
+fi
+
+# Install zsh and set as default for linux
+if [ "$OS" = "linux" ]; then
+  brew install zsh
+  zsh_path=$(which zsh)
+  if [ ! -x zsh_path ]; then
+    echo -e "${RED}Error: Zsh not found!${NC}"
+    exit 1
+  fi
+  chsh -s "$zsh_path"
 fi
 
 # Finish prompt
