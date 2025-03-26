@@ -61,11 +61,11 @@ else
 fi
 brew install gcc
 
+# Install zinit
+brew install zinit
+
 # Install starship
 brew install starship
-
-# Install zsh-vi-mode
-brew install zsh-vi-mode
 
 # Install yazi and dependencies
 brew install yazi ffmpeg sevenzip jq poppler fd ripgrep fzf zoxide imagemagick

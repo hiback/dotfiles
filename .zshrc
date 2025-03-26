@@ -1,8 +1,16 @@
+# Zinit
+source $(brew --prefix)/opt/zinit/zinit.zsh
+zinit ice blockf atpull'zinit creinstall -q .'
+zinit light zsh-users/zsh-completions
+autoload compinit
+compinit
+zinit light zdharma-continuum/fast-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions
+zinit ice depth=1
+zinit light jeffreytse/zsh-vi-mode
+
 # Starship
 eval "$(starship init zsh)"
-
-# Zsh-vi-mode
-source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
 # fnm
 eval "$(fnm env --use-on-cd --shell zsh)"
