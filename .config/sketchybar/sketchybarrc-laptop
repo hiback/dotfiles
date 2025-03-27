@@ -13,9 +13,9 @@ sketchybar --bar \
   color=0x00000000 \
   margin=0 \
   sticky=on \
-  padding_left=17 \
-  padding_right=17 \
-  notch_width=188 \
+  padding_left=13 \
+  padding_right=13 \
+  notch_width=192 \
   display=main
 
 sketchybar --default \
