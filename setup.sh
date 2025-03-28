@@ -103,6 +103,7 @@ if [ "$OS" = "mac" ]; then
   # Sketchybar for custom menu bar
   brew install --cask font-hack-nerd-font
   brew install sketchybar
+  brew install ifstat # For network speed module
   # Aerospace for tiling window managment
   brew install --cask nikitabobko/tap/aerospace
   # Kitty terminal emulator
