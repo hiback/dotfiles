@@ -117,6 +117,14 @@ config.mouse_bindings = {
 		end),
 	},
 }
+-- Background image
+config.window_background_image = "C:/Users/u0776047/Documents/_home/images/Monterey-Dark.png"
+config.window_background_image_hsb = {
+	brightness = 0.3,
+	hue = 1.0,
+	saturation = 1.0,
+}
+
 config.default_domain = "WSL:Ubuntu-24.04"
 
 return config
