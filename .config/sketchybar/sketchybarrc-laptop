@@ -102,7 +102,7 @@ sketchybar --add item memory q \
   label.font="$FONT_FACE:Bold:12" \
   icon="󰘚" \
   icon.font="$FONT_FACE:Bold:16.0" \
-  icon.color="0xffa6e3a1" \
+  icon.color="0xffcba6f7" \
   update_freq=15 \
   script="$PLUGINS_COMMON_DIR/ram.sh"
 
@@ -112,7 +112,7 @@ sketchybar --add item cpu.percent q \
   label.font="$FONT_FACE:Bold:12" \
   label=CPU% \
   icon="" \
-  icon.color="0xff89b4fa" \
+  icon.color="0xff89dceb" \
   update_freq=3 \
   script="$PLUGINS_COMMON_DIR/cpu.sh"
 
@@ -129,7 +129,7 @@ sketchybar --add item network.down q \
   label.padding_right=0 \
   icon="" \
   icon.font="$FONT_FACE:Bold:16.0" \
-  icon.color="0xff89b4fa" \
+  icon.color="0xffb4befe" \
   icon.highlight_color="0xffa6e3a1" \
   update_freq=1
 
@@ -142,7 +142,7 @@ sketchybar --add item network.up q \
   label.padding_right=0 \
   icon="" \
   icon.font="$FONT_FACE:Bold:16.0" \
-  icon.color="0xff89b4fa" \
+  icon.color="0xffb4befe" \
   icon.highlight_color="0xffa6e3a1" \
   update_freq=1 \
   script="$PLUGINS_COMMON_DIR/network.sh"
