@@ -67,8 +67,8 @@ sketchybar --add bracket spaces '/space\..*/' \
   --set spaces background.padding_right=100
 
 # Gap
-sketchybar --add item gap left \
-  --set gap width=7 background.drawing=off
+sketchybar --add item gap1 left \
+  --set gap1 width=5 background.drawing=off
 
 # Front app
 sketchybar --add item front_app left \
@@ -124,6 +124,41 @@ sketchybar --add item volume right \
   label.drawing=true \
   script="$PLUGINS_COMMON_DIR/volume.sh" \
   --subscribe volume volume_change
+
+# Gap
+sketchybar --add item gap2 right \
+  --set gap2 width=5 background.drawing=off
+
+# Network speed
+sketchybar --add item network.down right \
+  --set network.down \
+  background.drawing=off \
+  y_offset=-7 \
+  label.font="$FONT_FACE:Bold:10" \
+  label.padding_right=0 \
+  icon="" \
+  icon.font="$FONT_FACE:Bold:16.0" \
+  icon.color="0xff89b4fa" \
+  icon.highlight_color="0xffa6e3a1" \
+  update_freq=1
+
+sketchybar --add item network.up right \
+  --set network.up \
+  background.padding_right=-64 \
+  background.drawing=off \
+  y_offset=7 \
+  label.font="$FONT_FACE:Bold:10" \
+  label.padding_right=0 \
+  icon="" \
+  icon.font="$FONT_FACE:Bold:16.0" \
+  icon.color="0xff89b4fa" \
+  icon.highlight_color="0xffa6e3a1" \
+  update_freq=1 \
+  script="$PLUGINS_COMMON_DIR/network.sh"
+
+sketchybar --add bracket network_bracket \
+  network.down \
+  network.up
 
 # update
 sketchybar --update
