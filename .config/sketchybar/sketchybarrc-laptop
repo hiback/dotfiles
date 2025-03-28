@@ -113,7 +113,7 @@ sketchybar --add item cpu.percent q \
   label=CPU% \
   icon="" \
   icon.color="0xff89dceb" \
-  update_freq=3 \
+  update_freq=5 \
   script="$PLUGINS_COMMON_DIR/cpu.sh"
 
 # Gap
