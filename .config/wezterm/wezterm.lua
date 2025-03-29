@@ -1,8 +1,8 @@
 -- Wezterm config for wsl
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
-
 local act = wezterm.action
+
 config.color_scheme = "Catppuccin Mocha"
 config.font = wezterm.font("JetBrainsMonoNL Nerd Font")
 config.font_size = 14
@@ -11,8 +11,17 @@ config.tab_max_width = 32
 -- config.hide_tab_bar_if_only_one_tab = true
 config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.window_background_opacity = 1.0
-
 config.adjust_window_size_when_changing_font_size = false
+config.default_domain = "WSL:Ubuntu-24.04"
+
+-- Background image
+config.window_background_image = "C:/Users/u0776047/Documents/_home/images/Monterey-Dark.png"
+config.window_background_image_hsb = {
+	brightness = 0.5,
+	hue = 1.0,
+	saturation = 1.0,
+}
+
 -- key bindings
 config.keys = {
 	{
@@ -23,7 +32,12 @@ config.keys = {
 	{
 		key = "t",
 		mods = "ALT",
-		action = wezterm.action.SpawnTab("CurrentPaneDomain"),
+		action = wezterm.action.SpawnTab("DefaultDomain"),
+	},
+	{
+		key = "t",
+		mods = "ALT|SHIFT",
+		action = wezterm.action.SpawnTab({ DomainName = "local" }),
 	},
 	{
 		key = "w",
@@ -117,14 +131,5 @@ config.mouse_bindings = {
 		end),
 	},
 }
--- Background image
-config.window_background_image = "C:/Users/u0776047/Documents/_home/images/Monterey-Dark.png"
-config.window_background_image_hsb = {
-	brightness = 0.3,
-	hue = 1.0,
-	saturation = 1.0,
-}
-
-config.default_domain = "WSL:Ubuntu-24.04"
 
 return config
