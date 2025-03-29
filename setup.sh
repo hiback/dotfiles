@@ -96,12 +96,10 @@ if [ "$OS" = "mac" ]; then
   # fonts
   brew install --cask font-jetbrains-mono
   brew install --cask font-jetbrains-mono-nerd-font
-  brew install --cask font-symbols-only-nerd-font
   # JankyBorders
   brew tap FelixKratz/formulae # For JankyBorders and Sketchybar
   brew install borders
   # Sketchybar for custom menu bar
-  brew install --cask font-hack-nerd-font
   brew install sketchybar
   brew install ifstat # For network speed module
   # Aerospace for tiling window managment
