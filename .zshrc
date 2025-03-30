@@ -39,3 +39,6 @@ if grep -qi microsoft /proc/sys/kernel/osrelease || [ -n "$WSL_DISTRO_NAME" ]; t
     cd "/mnt/c/Users/$(cmd.exe /C "echo %USERNAME%" | tr -d "\r")/Documents/_home"
   }
 fi
+
+# Kitty ssh solution
+[ "$TERM" = "xterm-kitty" ] && alias ssh="kitty +kitten ssh"
