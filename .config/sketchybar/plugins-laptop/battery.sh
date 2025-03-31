@@ -9,28 +9,50 @@ if [ $PERCENTAGE = "" ]; then
   exit 0
 fi
 
+# Icon switch
 case ${PERCENTAGE} in
-[8-9][0-9] | 100)
-  ICON=""
-  ICON_COLOR=0xffa6e3a1
+9[5-9] | 100)
+  ICON="󰁹"
   ;;
-7[0-9])
-  ICON=""
-  ICON_COLOR=0xfff9e2af
+8[5-9] | 9[0-4])
+  ICON="󰂂"
   ;;
-[4-6][0-9])
-  ICON=""
-  ICON_COLOR=0xfffab387
+7[5-9] | 8[0-4])
+  ICON="󰂁"
   ;;
-[1-3][0-9])
-  ICON=""
-  ICON_COLOR=0xffeba0ac
+6[5-9] | 7[0-4])
+  ICON="󰂀"
   ;;
-[0-9])
-  ICON=""
-  ICON_COLOR=0xfff38ba8
+5[5-9] | 6[0-4])
+  ICON="󰁿"
+  ;;
+4[5-9] | 5[0-4])
+  ICON="󰁾"
+  ;;
+3[5-9] | 4[0-4])
+  ICON="󰁽"
+  ;;
+2[5-9] | 3[0-4])
+  ICON="󰁼"
+  ;;
+1[5-9] | 2[0-4])
+  ICON="󰁻"
+  ;;
+[5-9] | 1[0-4])
+  ICON="󰁺"
+  ;;
+[0-4])
+  ICON="󰂎"
   ;;
 esac
+
+if [ "$PERCENTAGE" -gt "20" ]; then
+  ICON_COLOR=0xffa6e3a1
+elif [ "$PERCENTAGE" -gt "10" ]; then
+  ICON_COLOR=0xfff9e2af
+else
+  ICON_COLOR=0xfff38ba8
+fi
 
 if [[ $CHARGING != "" ]]; then
   ICON=""
