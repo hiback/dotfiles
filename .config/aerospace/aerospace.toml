@@ -55,11 +55,15 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 automatically-unhide-macos-hidden-apps = false
 
 [[on-window-detected]]
+if.app-id = 'com.codeweavers.CrossOver'
+run = 'layout floating'
+
+[[on-window-detected]]
 if.app-name-regex-substring = '.exe'
 run = 'layout floating'
 
 [[on-window-detected]]
-if.app-id = 'com.codeweavers.CrossOver'
+if.app-name-regex-substring = 'Python'
 run = 'layout floating'
 
 [[on-window-detected]]
