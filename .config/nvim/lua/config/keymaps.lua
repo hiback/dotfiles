@@ -14,13 +14,6 @@ map("i", "<c-l>", "<right>", { desc = "Move right in insert mode" })
 map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move down 1 line" })
 map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move up 1 line" })
 
--- Screen moves
-map("n", "J", "<C-d>", { desc = "Move down 1/2 page" })
-map("n", "K", "<C-u>", { desc = "Move up 1/2 page" })
-
 -- Easier line start/end
 map({ "n", "v", "o" }, "H", "^", { desc = "Line start" })
 map({ "n", "v", "o" }, "L", "$", { desc = "Line end" })
-
--- Easier buffer swiching
-map("n", "<tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
