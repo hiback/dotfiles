@@ -5,7 +5,7 @@ local act = wezterm.action
 
 config.color_scheme = "Catppuccin Mocha"
 config.font = wezterm.font("JetBrainsMonoNL Nerd Font")
-config.font_size = 14
+config.font_size = 13
 config.use_fancy_tab_bar = false
 config.tab_max_width = 32
 -- config.hide_tab_bar_if_only_one_tab = true
