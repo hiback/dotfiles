@@ -15,6 +15,9 @@ eval "$(starship init zsh)"
 # fnm
 eval "$(fnm env --use-on-cd --shell zsh)"
 
+# fzf
+source <(fzf --zsh)
+
 # yazi
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
