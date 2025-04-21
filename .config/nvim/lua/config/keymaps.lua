@@ -13,7 +13,3 @@ map("i", "<c-l>", "<right>", { desc = "Move right in insert mode" })
 -- Code dragging in visual mode
 map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move down 1 line" })
 map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move up 1 line" })
-
--- Easier line start/end
-map({ "n", "v", "o" }, "H", "^", { desc = "Line start" })
-map({ "n", "v", "o" }, "L", "$", { desc = "Line end" })
