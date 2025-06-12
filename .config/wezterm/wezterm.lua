@@ -5,7 +5,7 @@ local act = wezterm.action
 
 config.color_scheme = "Catppuccin Mocha"
 config.font = wezterm.font("JetBrainsMonoNL Nerd Font")
-config.font_size = 13
+config.font_size = 12
 config.use_fancy_tab_bar = false
 config.tab_max_width = 32
 -- config.hide_tab_bar_if_only_one_tab = true
@@ -15,33 +15,33 @@ config.adjust_window_size_when_changing_font_size = false
 config.default_domain = "WSL:Ubuntu-24.04"
 
 -- Background image
-config.window_background_image = "C:/Users/u0776047/Documents/_home/images/Monterey-Dark.png"
-config.window_background_image_hsb = {
-	brightness = 0.5,
-	hue = 1.0,
-	saturation = 1.0,
-}
+config.window_background_image = "C:/Users/u0776047/Documents/_home/images/bg.png"
 
 -- key bindings
 config.keys = {
 	{
 		key = "n",
-		mods = "ALT",
+		mods = "CTRL",
 		action = wezterm.action.SpawnWindow,
 	},
 	{
 		key = "t",
-		mods = "ALT",
+		mods = "CTRL",
 		action = wezterm.action.SpawnTab("DefaultDomain"),
 	},
 	{
 		key = "t",
-		mods = "ALT|SHIFT",
+		mods = "CTRL|SHIFT",
 		action = wezterm.action.SpawnTab({ DomainName = "local" }),
 	},
 	{
+		key = "t",
+		mods = "CTRL|ALT",
+		action = wezterm.action.SpawnTab({ DomainName = "WSL:Debian" }),
+	},
+	{
 		key = "w",
-		mods = "ALT",
+		mods = "CTRL",
 		action = wezterm.action.CloseCurrentTab({ confirm = false }),
 	},
 	{
@@ -56,64 +56,64 @@ config.keys = {
 	},
 	{
 		key = "h",
-		mods = "SHIFT|ALT",
+		mods = "ALT|SHIFT",
 		action = wezterm.action.MoveTabRelative(-1),
 	},
 	{
 		key = "l",
-		mods = "SHIFT|ALT",
+		mods = "ALT|SHIFT",
 		action = wezterm.action.MoveTabRelative(1),
 	},
-	{
-		key = "/",
-		mods = "ALT",
-		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
-	},
-	{
-		key = "'",
-		mods = "ALT",
-		action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
-	},
-	{
-		key = "h",
-		mods = "CTRL|ALT",
-		action = wezterm.action.ActivatePaneDirection("Left"),
-	},
-	{
-		key = "l",
-		mods = "CTRL|ALT",
-		action = wezterm.action.ActivatePaneDirection("Right"),
-	},
-	{
-		key = "j",
-		mods = "CTRL|ALT",
-		action = wezterm.action.ActivatePaneDirection("Down"),
-	},
-	{
-		key = "k",
-		mods = "CTRL|ALT",
-		action = wezterm.action.ActivatePaneDirection("Up"),
-	},
-	{
-		key = "LeftArrow",
-		mods = "CTRL|ALT",
-		action = wezterm.action.AdjustPaneSize({ "Left", 5 }),
-	},
-	{
-		key = "RightArrow",
-		mods = "CTRL|ALT",
-		action = wezterm.action.AdjustPaneSize({ "Right", 5 }),
-	},
-	{
-		key = "UpArrow",
-		mods = "CTRL|ALT",
-		action = wezterm.action.AdjustPaneSize({ "Up", 5 }),
-	},
-	{
-		key = "DownArrow",
-		mods = "CTRL|ALT",
-		action = wezterm.action.AdjustPaneSize({ "Down", 5 }),
-	},
+	-- {
+	-- 	key = "/",
+	-- 	mods = "SHIFT|CTRL",
+	-- 	action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+	-- },
+	-- {
+	-- 	key = '"',
+	-- 	mods = "SHIFT|CTRL",
+	-- 	action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+	-- },
+	-- {
+	-- 	key = "h",
+	-- 	mods = "CTRL|ALT",
+	-- 	action = wezterm.action.ActivatePaneDirection("Left"),
+	-- },
+	-- {
+	-- 	key = "l",
+	-- 	mods = "CTRL|ALT",
+	-- 	action = wezterm.action.ActivatePaneDirection("Right"),
+	-- },
+	-- {
+	-- 	key = "j",
+	-- 	mods = "CTRL|ALT",
+	-- 	action = wezterm.action.ActivatePaneDirection("Down"),
+	-- },
+	-- {
+	-- 	key = "k",
+	-- 	mods = "CTRL|ALT",
+	-- 	action = wezterm.action.ActivatePaneDirection("Up"),
+	-- },
+	-- {
+	-- 	key = "LeftArrow",
+	-- 	mods = "CTRL|ALT",
+	-- 	action = wezterm.action.AdjustPaneSize({ "Left", 5 }),
+	-- },
+	-- {
+	-- 	key = "RightArrow",
+	-- 	mods = "CTRL|ALT",
+	-- 	action = wezterm.action.AdjustPaneSize({ "Right", 5 }),
+	-- },
+	-- {
+	-- 	key = "UpArrow",
+	-- 	mods = "CTRL|ALT",
+	-- 	action = wezterm.action.AdjustPaneSize({ "Up", 5 }),
+	-- },
+	-- {
+	-- 	key = "DownArrow",
+	-- 	mods = "CTRL|ALT",
+	-- 	action = wezterm.action.AdjustPaneSize({ "Down", 5 }),
+	-- },
 }
 -- right click to copy and paste
 config.mouse_bindings = {
