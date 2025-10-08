@@ -33,27 +33,43 @@ sketchybar --default \
   label.padding_right=5
 
 ### Left ###
-# Aerospace workspaces
-sketchybar --add event aerospace_workspace_change
+# # Aerospace workspaces
+# sketchybar --add event aerospace_workspace_change
+#
+# # Temporary order fix before aerospace offically support custom workspace order
+# # https://github.com/nikitabobko/AeroSpace/issues/999
+# workspaces=$(aerospace list-workspaces --all)
+# reorded_workspaces="U $(echo "$workspaces" | tr -d 'U')"
+#
+# for sid in $reorded_workspaces; do
+#   sketchybar --add item space.$sid left \
+#     --subscribe space.$sid aerospace_workspace_change \
+#     --set space.$sid \
+#     background.color=0xfffab387 \
+#     icon.color=0xff1e1e2e \
+#     label.drawing=off \
+#     background.drawing=off \
+#     click_script="aerospace workspace $sid" \
+#     script="$PLUGINS_COMMON_DIR/aerospace.sh $sid"
+# done
+# sketchybar --add bracket spaces '/space\..*/' \
+#   --set spaces background.padding_right=100
 
-# Temporary order fix before aerospace offically support custom workspace order
-# https://github.com/nikitabobko/AeroSpace/issues/999
-workspaces=$(aerospace list-workspaces --all)
-reorded_workspaces="U $(echo "$workspaces" | tr -d 'U')"
-
-for sid in $reorded_workspaces; do
+# Yabai spaces
+for sid in $(yabai -m query --spaces | jq -r '.[].index'); do
   sketchybar --add item space.$sid left \
-    --subscribe space.$sid aerospace_workspace_change \
     --set space.$sid \
+    script="$PLUGINS_COMMON_DIR/yabai.sh" \
     background.color=0xfffab387 \
     icon.color=0xff1e1e2e \
     label.drawing=off \
     background.drawing=off \
-    click_script="aerospace workspace $sid" \
-    script="$PLUGINS_COMMON_DIR/aerospace.sh $sid"
+    click_script="yabai -m space --focus $sid" \
+    --subscribe space.$sid space_change display_change
 done
+
 sketchybar --add bracket spaces '/space\..*/' \
-  --set spaces background.padding_right=100
+  --set spaces background.padding_right=100 --set spaces background.padding_right=100
 
 # Gap
 sketchybar --add item gap1 left \
