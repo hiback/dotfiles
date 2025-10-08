@@ -1,0 +1,35 @@
+#!/usr/bin/env sh
+
+# Auto start
+borders active_color=0xff89b4fa inactive_color=0xff45475a width=5.0 &
+
+# Scripting addition
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+
+# Layout
+yabai -m config layout bsp
+
+# Padding and gaps
+yabai -m config top_padding 10
+yabai -m config bottom_padding 10
+yabai -m config left_padding 10
+yabai -m config right_padding 10
+yabai -m config window_gap 10
+
+# Status bar
+yabai -m config external_bar main:32:0
+
+# Applications config
+yabai -m rule --add app="^系统设置$" manage=off
+
+# Create spaces
+DESIRED_SPACES=5
+CURRENT_SPACES=$(yabai -m query --spaces | jq 'length')
+MISSING_SPACES=$((DESIRED_SPACES - CURRENT_SPACES))
+
+if [ "$MISSING_SPACES" -gt 0 ]; then
+  for i in $(seq 1 $MISSING_SPACES); do
+    yabai -m space --create
+  done
+fi

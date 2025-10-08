@@ -1,0 +1,41 @@
+# Focus space
+cmd - u: yabai -m space --focus 1
+cmd - i: yabai -m space --focus 2
+cmd - o: yabai -m space --focus 3
+cmd - p: yabai -m space --focus 4
+cmd - 0x29: yabai -m space --focus 5 #cmd+;
+
+# Layout
+cmd - 0x2C: yabai -m window --toggle split #cmd+/
+cmd + shift - 0x2C: yabai -m space --rotate 90
+cmd - 0x18: yabai -m space --balance #cmd+=
+
+# Focus window
+cmd - h: yabai -m window --focus west
+cmd - j: yabai -m window --focus south
+cmd - k: yabai -m window --focus north
+cmd - l: yabai -m window --focus east
+
+# Move window
+cmd + shift - h: yabai -m window --swap west
+cmd + shift - j: yabai -m window --swap south
+cmd + shift - k: yabai -m window --swap north
+cmd + shift - l: yabai -m window --swap east
+
+# Resize window
+cmd - left: yabai -m window --resize left:-20:0 ; yabai -m window --resize right:-20:0
+cmd - right: yabai -m window --resize right:20:0 ; yabai -m window --resize left:20:0
+cmd - up: yabai -m window --resize top:0:-20 ; yabai -m window --resize bottom:0:-20
+cmd - down: yabai -m window --resize bottom:0:20 ; yabai -m window --resize top:0:20
+
+# Move window to space
+cmd + shift - u: yabai -m window --space 1
+cmd + shift - i: yabai -m window --space 2
+cmd + shift - o: yabai -m window --space 3
+cmd + shift - p: yabai -m window --space 4
+cmd + shift - 0x29: yabai -m window --space 5
+
+# Window properties
+cmd + shift - f : yabai -m window --toggle float
+cmd + shift - s : yabai -m window --toggle sticky
+
