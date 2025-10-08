@@ -36,10 +36,13 @@ case $INFO in
 "kitty")
   ICON=󰄛
   ;;
+"Ghostty")
+  ICON=󰊠
+  ;;
 "Messages")
   ICON=
   ;;
-"Notion"|"Obsidian")
+"Notion" | "Obsidian")
   ICON_PADDING_RIGHT=6
   ICON=󰎚
   ;;
