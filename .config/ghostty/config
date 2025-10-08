@@ -1,0 +1,12 @@
+# Configs
+font-family = JetBrains Mono
+font-size = 16
+background = 000000
+background-opacity = 0.6
+background-blur = 30
+
+# Keybinds
+keybind = alt+h=previous_tab
+keybind = alt+l=next_tab
+keybind = alt+shift+h=move_tab:-1
+keybind = alt+shift+l=move_tab:1
