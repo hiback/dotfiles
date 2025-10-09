@@ -23,10 +23,10 @@ sketchybar --default \
   background.corner_radius=5 \
   background.padding_right=5 \
   background.height=26 \
-  icon.font="$FONT_FACE:Medium:15.0" \
+  icon.font="$FONT_FACE:Bold:15" \
   icon.padding_left=5 \
   icon.padding_right=5 \
-  label.font="$FONT_FACE:Medium:12.0" \
+  label.font="$FONT_FACE:Bold:12" \
   label.color=0xffcdd6f4 \
   label.y_offset=0 \
   label.padding_left=0 \
@@ -90,7 +90,7 @@ sketchybar --add item front_app left \
   background.padding_left=-3 \
   icon= \
   icon.color=0xffa6e3a1 \
-  icon.font="$FONT_FACE:Bold:20.0" \
+  icon.font="$FONT_FACE:Bold:20" \
   icon.padding_left=0 \
   icon.padding_right=0 \
   icon.y_offset=1 \
@@ -100,7 +100,6 @@ sketchybar --add item front_app left \
   background.color=0x00000000 \
   background.padding_right=0 \
   icon.drawing=off \
-  label.font="$FONT_FACE:Bold:12.0" \
   label.drawing=yes
 
 sketchybar --add bracket front_app_bracket \
@@ -116,7 +115,7 @@ sketchybar --add event spotify_change $SPOTIFY_EVENT \
   --set spotify \
   icon= \
   icon.y_offset=1 \
-  icon.font="$FONT_FACE:Bold:20.0" \
+  icon.font="$FONT_FACE:Bold:20" \
   label.drawing=off \
   label.padding_left=3 \
   script="$PLUGINS_COMMON_DIR/spotify.sh" \
@@ -134,6 +133,7 @@ sketchybar --add item clock right \
 # Volume
 sketchybar --add item volume right \
   --set volume \
+  icon.font="$FONT_FACE:Bold:13" \
   icon.color=0xff89b4fa \
   label.drawing=true \
   script="$PLUGINS_COMMON_DIR/volume.sh" \
@@ -143,9 +143,8 @@ sketchybar --add item volume right \
 sketchybar --add item memory right \
   --set memory \
   background.padding_right=0 \
-  label.font="$FONT_FACE:Bold:12" \
   icon="󰘚" \
-  icon.font="$FONT_FACE:Bold:16.0" \
+  icon.font="$FONT_FACE:Bold:17" \
   icon.color="0xffcba6f7" \
   update_freq=15 \
   script="$PLUGINS_COMMON_DIR/ram.sh"
@@ -153,7 +152,6 @@ sketchybar --add item memory right \
 # CPU Usage
 sketchybar --add item cpu.percent right \
   --set cpu.percent \
-  label.font="$FONT_FACE:Bold:12" \
   label=CPU% \
   icon="" \
   icon.color="0xff89dceb" \
@@ -172,7 +170,7 @@ sketchybar --add item network.down right \
   label.font="$FONT_FACE:Bold:10" \
   label.padding_right=0 \
   icon="" \
-  icon.font="$FONT_FACE:Bold:16.0" \
+  icon.font="$FONT_FACE:Bold:16" \
   icon.color="0xffb4befe" \
   icon.highlight_color="0xffa6e3a1" \
   update_freq=1
@@ -185,7 +183,7 @@ sketchybar --add item network.up right \
   label.font="$FONT_FACE:Bold:10" \
   label.padding_right=0 \
   icon="" \
-  icon.font="$FONT_FACE:Bold:16.0" \
+  icon.font="$FONT_FACE:Bold:16" \
   icon.color="0xffb4befe" \
   icon.highlight_color="0xffa6e3a1" \
   update_freq=1 \
