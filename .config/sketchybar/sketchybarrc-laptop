@@ -137,7 +137,7 @@ sketchybar --add item gap2 q \
 sketchybar --add item network.down q \
   --set network.down \
   background.drawing=off \
-  y_offset=-7 \
+  y_offset=-6 \
   label.font="$FONT_FACE:Bold:10" \
   label.padding_right=0 \
   icon="" \
@@ -150,7 +150,7 @@ sketchybar --add item network.up q \
   --set network.up \
   background.padding_right=-64 \
   background.drawing=off \
-  y_offset=7 \
+  y_offset=6 \
   label.font="$FONT_FACE:Bold:10" \
   label.padding_right=0 \
   icon="" \
