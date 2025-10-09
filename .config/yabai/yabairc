@@ -22,6 +22,7 @@ yabai -m config external_bar main:32:0
 
 # Applications config
 yabai -m rule --add app="^系统设置$" manage=off
+yabai -m rule --add app="^Raycast$" manage=off
 
 # Create spaces
 DESIRED_SPACES=5
