@@ -9,7 +9,7 @@ SPOTIFY_EVENT="com.spotify.client.PlaybackStateChanged"
 
 ### Default settings ###
 sketchybar --bar \
-  height=38 \
+  height=32 \
   color=0x00000000 \
   margin=0 \
   sticky=on \
