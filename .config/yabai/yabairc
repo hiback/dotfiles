@@ -13,6 +13,7 @@ yabai -m config layout bsp
 # Device specific settings
 MAIN_DISPLAY=$(system_profiler SPDisplaysDataType | grep -B 3 'Main Display:' | awk '/Display Type/ {print $3}')
 if [[ $MAIN_DISPLAY = "Built-in" ]]; then
+  # Laptop settings
   # Padding and gaps
   yabai -m config top_padding 4
   yabai -m config bottom_padding 4
@@ -20,19 +21,20 @@ if [[ $MAIN_DISPLAY = "Built-in" ]]; then
   yabai -m config right_padding 4
   yabai -m config window_gap 8
 else
+  # Desktop settings
   # Padding and gaps
-  yabai -m config top_padding 10
+  yabai -m config top_padding 0
   yabai -m config bottom_padding 10
   yabai -m config left_padding 10
   yabai -m config right_padding 10
   yabai -m config window_gap 10
 
   # Status bar
-  yabai -m config external_bar main:32:0
+  yabai -m config external_bar main:46:0
 fi
 
 # Applications config
-yabai -m rule --add app="^系统设置$" manage=off
+yabai -m rule --add app="^(System Settings|系统设置)$" manage=off
 yabai -m rule --add app="^Raycast$" manage=off
 
 # Create spaces
