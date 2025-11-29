@@ -1,3 +1,4 @@
+##### Yabai #####
 # Focus space
 cmd - u: yabai -m space --focus 1
 cmd - i: yabai -m space --focus 2
@@ -39,3 +40,7 @@ cmd + shift - 0x29: yabai -m window --space 5; yabai -m space --focus 5
 cmd + shift - f : yabai -m window --toggle float
 cmd + shift - s : yabai -m window --toggle sticky
 
+##### macism #####
+f13 : macism com.apple.keylayout.ABC
+f14 : macism com.apple.inputmethod.SCIM.ITABC
+f15 : macism com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese
