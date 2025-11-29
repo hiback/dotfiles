@@ -36,6 +36,8 @@ fi
 # Applications config
 yabai -m rule --add app="^(System Settings|系统设置)$" manage=off
 yabai -m rule --add app="^Raycast$" manage=off
+yabai -m rule --add app="^CrossOver$" manage=off
+yabai -m rule --add app="\.exe$" manage=off
 
 # Create spaces
 DESIRED_SPACES=5
