@@ -18,6 +18,9 @@ eval "$(fnm env --use-on-cd --shell zsh)"
 # fzf
 source <(fzf --zsh)
 
+# zoxide
+eval "$(zoxide init zsh)"
+
 # yazi
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
