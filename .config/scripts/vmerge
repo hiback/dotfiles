@@ -140,6 +140,10 @@ for file in "${input_files[@]}"; do
     if [ "$v_pix" != "$ref_v_pix" ]; then error_msg="像素格式不匹配 ($v_pix vs $ref_v_pix) - 颜色会出错"; fi
     if [ "$v_sar" != "$ref_v_sar" ]; then error_msg="像素比例(SAR)不匹配 ($v_sar vs $ref_v_sar) - 画面会变形"; fi
 
+    if [ -n "$error_msg" ]; then
+      die "错误: 视频无法兼容合并！\n原因: $error_msg"
+    fi
+
     # 时基检查 (警告而不是报错，因为有些情况 ffmpeg 能自动修正，但极大风险)
     if [ "$v_tb" != "$ref_v_tb" ]; then
       echo -e "${YELLOW}  警告: 时基(Timebase)不一致 ($v_tb vs $ref_v_tb)。${NC}"
@@ -149,10 +153,6 @@ for file in "${input_files[@]}"; do
       y | Y) echo "  已忽略时基警告..." ;;
       *) die "已取消操作。" ;;
       esac
-    fi
-
-    if [ -n "$error_msg" ]; then
-      die "错误: 视频无法兼容合并！\n原因: $error_msg"
     fi
 
     # 2. 检查音频
