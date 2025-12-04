@@ -33,6 +33,7 @@ function y() {
 
 # Envs
 export EDITOR="nvim"
+export PATH="$HOME/.config/scripts:$PATH"
 
 # Alias
 alias vim="nvim"

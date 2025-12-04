@@ -1,5 +1,5 @@
 [tasks]
-image_bound = [10000, 10000]
+image_bound = [20000, 20000]
 
 [mgr]
 linemode = "size"

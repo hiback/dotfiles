@@ -1,0 +1,21 @@
+#!/bin/bash
+
+input_files=("$@")
+
+for file in "${input_files[@]}"; do
+  if [ -f "$file" ]; then
+    ls -l "$file" | awk '{print $5, $9}'
+  fi
+done
+read -p "Need to calculate SHA-256? (y/n)" choice
+case "$choice" in
+y | Y)
+  for file in "${input_files[@]}"; do
+    if [ -f "$file" ]; then
+      sha256sum "$file"
+    fi
+  done
+  read -p "Press Enter to exit"
+  ;;
+*) ;;
+esac

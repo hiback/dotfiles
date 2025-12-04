@@ -2,4 +2,12 @@
 prepend_keymap = [
   { on = "<C-g>", run = "shell --block 'lazygit'", desc = "run lazygit" },
   { on = ":", run = "shell '$SHELL' --block", desc = "run shell in subthread" },
+  { on = [
+    "m",
+    "v",
+  ], run = 'shell --block -- $HOME/.config/scripts/vmerge "$@"', desc = "Merge videos using ffmpeg" },
+  { on = [
+    "c",
+    "p",
+  ], run = 'shell --block -- $HOME/.config/scripts/file_compare "$@"', desc = "Compare file size and sha256" },
 ]
