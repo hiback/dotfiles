@@ -1,0 +1,92 @@
+#!/bin/bash
+
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+SECRET_FILE="${HOME}/.config/.secrets/fantia_cookies.conf"
+if [[ -f "$SECRET_FILE" ]]; then
+  source "$SECRET_FILE"
+fi
+
+if [[ -z "$FANTIA_SESSION_ID" ]]; then
+  echo "${RED}Cannot get fantia session id, please check secret file.${NC}"
+  exit 1
+fi
+
+for file in fantia-*.mp4; do
+  filename_base="${file%.*}"
+  id_tmp="${filename_base#fantia-}"
+  if [[ "$id_tmp" =~ ^[0-9]{4,7} ]]; then
+    if [[ "$id_tmp" =~ ^[0-9]{7} ]]; then
+      id="${id_tmp:0:7}"
+      if [[ "$id" == "$id_pre" ]]; then
+        continue
+      fi
+      id_pre="$id"
+      thumb_name="fantia-${id}.jpg"
+      if [[ ! -f "$thumb_name" ]]; then
+        echo "# Try to fetch thumb of post ${id}"
+        response=$(curl -s -w "\n%{http_code}" -b "_session_id=${FANTIA_SESSION_ID}" "https://fantia.jp/posts/${id}")
+        http_code=$(tail -n1 <<<"$response")
+        html_content=$(sed '$d' <<<"$response")
+        if [[ "$http_code" -ne 200 ]]; then
+          echo -e "${RED}[${http_code}] Cannot get post ${id}${NC}"
+          continue
+        fi
+        csrf_token=$(echo "$html_content" | pup 'meta[name="csrf-token"] attr{content}' | head -n 1)
+        if [[ -z "$csrf_token" ]]; then
+          echo -e "${RED}[${http_code}] Cannot get csrf_token from post page.${NC}"
+          continue
+        fi
+        json_response=$(curl -s -H "X-CSRF-Token: ${csrf_token}" -H "X-Requested-With: XMLHttpRequest" -H "Accept: application/json" "https://fantia.jp/api/v1/posts/${id}")
+        if [[ "$json_response" != *"\"post\""* ]]; then
+          echo -e "${RED} API request failed${NC}"
+          continue
+        fi
+        thumb_micro_url=$(echo "$json_response" | jq -r '.post.thumb_micro')
+        thumb_url=${thumb_micro_url/micro_/}
+        http_code=$(curl -s -w "%{http_code}" -o "$thumb_name" "$thumb_url")
+        if [[ "$http_code" -ne 200 ]]; then
+          echo -e "${RED}[${http_code_img}] Image download error${NC}"
+          continue
+        fi
+        ls "$thumb_name"
+        # gallery-dl \
+        #   --cookies <(echo -e ".fantia.jp\tTRUE\t/\tTRUE\t2147483647\t_session_id\t${FANTIA_SESSION_ID}") \
+        #   --directory "." \
+        #   --filename "$thumb_name" \
+        #   "https://fantia.jp/posts/${id}"
+      fi
+    else
+      id=$(grep -oE '^[0-9]+' <<<"$id_tmp")
+      if [[ "$id" == "$id_pre" ]]; then
+        continue
+      fi
+      id_pre="$id"
+      thumb_name="fantia-${id}.jpg"
+      if [[ ! -f "$thumb_name" ]]; then
+        echo "# Try to fetch thumb of product ${id}"
+        response=$(curl -s -w "\n%{http_code}" -b "_session_id=${FANTIA_SESSION_ID}" "https://fantia.jp/products/${id}")
+        http_code=$(tail -n1 <<<"$response")
+        html_content=$(sed '$d' <<<"$response")
+        # echo "$html_content" >"${id}.html"
+        if [ -z "$html_content" ]; then
+          echo -e "${RED}[${http_code}] Cannot get webpage${NC}"
+          continue
+        fi
+        thumb_main_url=$(echo "$html_content" | pup '.product-gallery img attr{src}' | head -n 1)
+        if [ -z "$thumb_main_url" ]; then
+          echo -e "${RED}[${http_code}] Cannot get image url${NC}"
+          continue
+        fi
+        thumb_url=${thumb_main_url/main_/}
+        http_code=$(curl -s -w "%{http_code}" -o "$thumb_name" "$thumb_url")
+        if [[ "$http_code" -ne 200 ]]; then
+          echo -e "${RED}[${http_code_img}] Image download error${NC}"
+          continue
+        fi
+        ls "$thumb_name"
+      fi
+    fi
+  fi
+done
