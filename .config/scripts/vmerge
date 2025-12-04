@@ -72,9 +72,8 @@ for file in "${input_files[@]}"; do
   fi
 
   # --- 获取视频信息 (宽, 高, 编码, 像素格式, SAR, 时基) ---
-  # 增加检查: pix_fmt, sample_aspect_ratio, time_base
   v_props=$(ffprobe -v error -select_streams v:0 \
-    -show_entries stream=width,height,codec_name,pix_fmt,sample_aspect_ratio,time_base \
+    -show_entries stream=codec_name,width,height,pix_fmt,sample_aspect_ratio,time_base \
     -of csv=p=0 "$file")
 
   if [ -z "$v_props" ]; then
