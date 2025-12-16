@@ -10,4 +10,9 @@ prepend_keymap = [
     "c",
     "p",
   ], run = 'shell --block -- $HOME/.config/scripts/file_compare "$@"', desc = "Compare file size and sha256" },
+  { on = "M", run = "plugin mount", desc = "Mount/umount devices" },
+  { on = [
+    "c",
+    "m",
+  ], run = "plugin chmod", desc = "Chmod on selected files" },
 ]
