@@ -70,6 +70,9 @@ brew install starship
 # Install yazi and dependencies
 brew install yazi ffmpeg sevenzip jq poppler fd ripgrep fzf zoxide imagemagick
 
+# Install ls alternative
+brew install eza
+
 # Install html parser
 brew install pup
 
