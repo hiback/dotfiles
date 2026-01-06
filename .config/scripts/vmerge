@@ -2,7 +2,8 @@
 
 # =========================================================
 # 脚本名称: vmerge
-# 功能: 严格无损合并多个视频文件 (增强版兼容性检查)
+# 功能: 使用 mkvmerge 智能无损合并视频
+# 优势: 自动检测兼容性，拒绝生成结构损坏的文件
 # =========================================================
 
 # 颜色定义
@@ -22,8 +23,8 @@ die() {
 echo -e "----------------------------------------"
 
 # 1. 检查依赖
-if ! command -v ffmpeg &>/dev/null || ! command -v ffprobe &>/dev/null; then
-  die "错误: 未找到 ffmpeg 或 ffprobe，请先安装。"
+if ! command -v mkvmerge &>/dev/null; then
+  die "错误: 未找到 mkvmerge。请安装 MKVToolNix (例如: sudo apt install mkvtoolnix)。"
 fi
 
 # 2. 检查参数数量
@@ -31,160 +32,77 @@ if [ "$#" -lt 2 ]; then
   die "用法: $(basename "$0") <视频1> <视频2> [视频3...]"
 fi
 
-# 创建临时文件列表
-TEMP_LIST=$(mktemp)
-trap 'rm -f "$TEMP_LIST"' EXIT
-
-# 变量初始化
-first_file=""
-
-# 视频参考参数
-ref_v_w=""
-ref_v_h=""
-ref_v_codec=""
-ref_v_pix="" # 新增: 像素格式
-ref_v_sar="" # 新增: 采样宽高比
-ref_v_tb=""  # 新增: 时基
-
-# 音频参考参数
-ref_a_codec=""
-ref_a_rate=""
-ref_a_ch=""
-
 input_files=("$@")
 
-echo -e "${GREEN}正在执行严格兼容性检查...${NC}"
-
-# 3. 循环检查所有文件
+# 3. 验证所有输入文件是否存在
 for file in "${input_files[@]}"; do
   if [ ! -f "$file" ]; then
     die "错误: 文件 '$file' 不存在。"
   fi
-
-  # 获取绝对路径
-  if command -v realpath &>/dev/null; then
-    abs_path=$(realpath "$file")
-  else
-    abs_path="$(
-      cd "$(dirname "$file")"
-      pwd
-    )/$(basename "$file")"
-  fi
-
-  # --- 获取视频信息 (宽, 高, 编码, 像素格式, SAR, 时基) ---
-  v_props=$(ffprobe -v error -select_streams v:0 \
-    -show_entries stream=codec_name,width,height,pix_fmt,sample_aspect_ratio,time_base \
-    -of csv=p=0 "$file")
-
-  if [ -z "$v_props" ]; then
-    die "错误: '$file' 不是有效的视频文件或没有视频流。"
-  fi
-  IFS=',' read -r v_codec v_w v_h v_pix v_sar v_tb <<<"$v_props"
-
-  # 规范化 SAR (处理 N/A 或 0:1 的情况，视为一致)
-  [ "$v_sar" == "N/A" ] && v_sar="0:1"
-
-  # --- 获取音频信息 (编码, 采样率, 声道数) ---
-  a_props=$(ffprobe -v error -select_streams a:0 \
-    -show_entries stream=codec_name,sample_rate,channels \
-    -of csv=p=0 "$file")
-
-  if [ -n "$a_props" ]; then
-    IFS=',' read -r a_codec a_rate a_ch <<<"$a_props"
-  else
-    a_codec="none"
-    a_rate="0"
-    a_ch="0"
-  fi
-
-  # --- 比较逻辑 ---
-  if [ -z "$first_file" ]; then
-    # === 第一个文件：设定基准 ===
-    first_file="$file"
-
-    # 视频基准
-    ref_v_w=$v_w
-    ref_v_h=$v_h
-    ref_v_codec=$v_codec
-    ref_v_pix=$v_pix
-    ref_v_sar=$v_sar
-    ref_v_tb=$v_tb
-
-    # 音频基准
-    ref_a_codec=$a_codec
-    ref_a_rate=$a_rate
-    ref_a_ch=$a_ch
-
-    # 文件名处理
-    filename=$(basename -- "$file")
-    extension="${filename##*.}"
-    filename_no_ext="${filename%.*}"
-    filename_no_ext=$(echo "$filename_no_ext" | sed 's/-[cC][dD][1-9]$//')
-
-    echo -e "${CYAN}基准文件: $(basename "$file")${NC}"
-    echo "  [视频] ${v_w}x${v_h} | $v_codec | fmt:$v_pix | sar:$v_sar | tb:$v_tb"
-    if [ "$a_codec" != "none" ]; then
-      echo "  [音频] $a_codec | ${a_rate}Hz | ${a_ch}ch"
-    else
-      echo "  [音频] 无音频流"
-    fi
-
-  else
-    # === 后续文件：与基准比较 ===
-    echo -e "检查: $(basename "$file")..."
-
-    # 1. 检查视频 (详细报错)
-    error_msg=""
-    if [ "$v_w" != "$ref_v_w" ] || [ "$v_h" != "$ref_v_h" ]; then error_msg="分辨率不匹配 ($v_w x $v_h vs $ref_v_w x $ref_v_h)"; fi
-    if [ "$v_codec" != "$ref_v_codec" ]; then error_msg="视频编码不匹配 ($v_codec vs $ref_v_codec)"; fi
-    if [ "$v_pix" != "$ref_v_pix" ]; then error_msg="像素格式不匹配 ($v_pix vs $ref_v_pix) - 颜色会出错"; fi
-    if [ "$v_sar" != "$ref_v_sar" ]; then error_msg="像素比例(SAR)不匹配 ($v_sar vs $ref_v_sar) - 画面会变形"; fi
-
-    if [ -n "$error_msg" ]; then
-      die "错误: 视频无法兼容合并！\n原因: $error_msg"
-    fi
-
-    # 时基检查 (警告而不是报错，因为有些情况 ffmpeg 能自动修正，但极大风险)
-    if [ "$v_tb" != "$ref_v_tb" ]; then
-      echo -e "${YELLOW}  警告: 时基(Timebase)不一致 ($v_tb vs $ref_v_tb)。${NC}"
-      echo -e "${YELLOW}        这可能导致音画不同步或进度条失效。建议统一转码。${NC}"
-      read -p "  是否继续合并？(y/n) " choice
-      case "$choice" in
-      y | Y) echo "  已忽略时基警告..." ;;
-      *) die "已取消操作。" ;;
-      esac
-    fi
-
-    # 2. 检查音频
-    if [ "$a_codec" != "$ref_a_codec" ]; then die "错误: 音频编码不同 ($a_codec vs $ref_a_codec)"; fi
-    if [ "$a_rate" != "$ref_a_rate" ]; then die "错误: 音频采样率不同 ($a_rate vs $ref_a_rate) - 会导致变速/变调"; fi
-    if [ "$a_ch" != "$ref_a_ch" ]; then die "错误: 声道数不同 ($a_ch vs $ref_a_ch)"; fi
-  fi
-
-  # 写入临时列表
-  safe_path=$(echo "$abs_path" | sed "s/'/'\\\\''/g")
-  echo "file '$safe_path'" >>"$TEMP_LIST"
 done
 
-# 4. 生成输出文件名
+# 4. 生成输出文件名 (基于第一个文件)
+first_file="${input_files[0]}"
+filename=$(basename -- "$first_file")
+filename_no_ext="${filename%.*}"
+
+# 去除常见的 cd1, CD1 尾缀，保持文件名整洁
+filename_no_ext=$(echo "$filename_no_ext" | sed -E 's/-[cC][dD][1-9]$//')
+
+# 基础输出名
 output_base="${filename_no_ext}-merged"
-output_file="${output_base}.${extension}"
+output_extension="mkv"
+output_file="${output_base}.${output_extension}"
+
+# 自动处理文件名冲突 (如果存在则 file-merged-1.mkv, -2.mkv ...)
 counter=1
 while [ -f "$output_file" ]; do
-  output_file="${output_base}-${counter}.${extension}"
+  output_file="${output_base}-${counter}.${output_extension}"
   ((counter++))
 done
 
-# 5. 执行合并
-echo -e "${GREEN}检查全部通过，开始合并...${NC}"
-echo "输出文件: $output_file"
+# 5. 构建 mkvmerge 命令参数
+# mkvmerge 的逻辑是: -o 输出 input1 + input2 + input3
+# 注意: 第一个文件前不需要加 +，后续文件前必须加 + 以表示“追加”而不是“并列轨道”
 
-# 添加 -ignore_unknown 可以在某些流数据轻微异常时不中断
-# 添加 -auto_convert 1 尝试自动修正数据包格式
-ffmpeg -v error -stats -f concat -safe 0 -i "$TEMP_LIST" -c copy -ignore_unknown "$output_file"
+merge_args=("-o" "$output_file")
+is_first=true
 
-if [ $? -eq 0 ]; then
-  echo -e "${GREEN}合并成功！${NC}"
+echo -e "${GREEN}准备合并 ${#input_files[@]} 个文件...${NC}"
+echo "输出目标: $output_file"
+
+for file in "${input_files[@]}"; do
+  if [ "$is_first" = true ]; then
+    # 第一个文件直接添加
+    merge_args+=("$file")
+    is_first=false
+  else
+    # 后续文件前加 + 号 (作为独立的参数传递)
+    merge_args+=("+" "$file")
+  fi
+done
+
+# 6. 执行合并
+echo -e "${CYAN}正在调用 mkvmerge 执行合并...${NC}"
+
+# 执行命令并捕获退出代码
+# "$@" 方式可以完美处理文件名中的空格
+mkvmerge "${merge_args[@]}"
+exit_code=$?
+
+# 7. 结果判断
+if [ $exit_code -eq 0 ]; then
+  echo -e "${GREEN}✅ 合并成功！${NC}"
+  echo "文件已保存为: $output_file"
+elif [ $exit_code -eq 1 ]; then
+  echo -e "${YELLOW}⚠️ 合并完成，但存在警告 (代码 1)。${NC}"
+  echo "文件可能可以播放，但请务必检查是否存在音画同步问题。"
+  echo "文件已保存为: $output_file"
+  read -p "按Enter键结束"
 else
-  die "合并失败，可能是文件内部结构损坏。"
+  # 退出代码 2 通常表示错误且未生成文件
+  echo -e "${RED}❌ 合并失败 (代码 $exit_code)。${NC}"
+  echo "原因可能是：分辨率/编码不匹配、文件损坏或缺少必要的编解码信息。"
+  echo "mkvmerge 拒绝合并不兼容的文件以防止产生无法播放的垃圾文件。"
+  die "请检查上方具体的错误日志。"
 fi
