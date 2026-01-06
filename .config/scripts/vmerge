@@ -23,6 +23,9 @@ check_dep() {
   fi
 }
 
+# 0. Start
+echo "----------------------------------------"
+
 # 1. 检查依赖
 check_dep mkvmerge
 check_dep ffprobe
@@ -93,7 +96,6 @@ echo -e "${CYAN}基准文件: $(basename "$first_file")${NC}"
 echo "  分辨率: ${ref_w}x${ref_h}"
 echo "  格式: $ref_pix | $ref_prof @ $ref_lvl"
 echo "  色彩: $ref_color"
-echo "----------------------------------------"
 
 # 4. 循环严格检查
 for file in "${input_files[@]}"; do
