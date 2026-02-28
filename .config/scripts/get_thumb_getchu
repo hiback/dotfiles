@@ -1,0 +1,44 @@
+#!/bin/bash
+
+USER_AGENT="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+
+for file in GETCHU-*; do
+  [ -e "$file" ] || continue
+
+  [ -d "$file" ] && continue
+
+  if [[ "$file" == *.jpg ]]; then
+    continue
+  fi
+
+  if [[ "$file" =~ GETCHU-([0-9]{7}) ]]; then
+    full_id="${BASH_REMATCH[1]}"
+    prefix_id="${full_id:0:5}"
+
+    base_name="${file%.*}"
+
+    target_jpg="${base_name}.jpg"
+
+    if [ ! -f "$target_jpg" ]; then
+      echo "------------------------------------------------"
+      echo "发现视频文件: $file"
+      echo "提取ID: $full_id"
+
+      download_url="https://dl.getchu.com/data/item_img/${prefix_id}/${full_id}/${full_id}top.jpg"
+
+      echo "正在下载封面: $download_url"
+
+      if curl -s -f -L -A "$USER_AGENT" -o "$target_jpg" "$download_url"; then
+        echo -e "\033[32m[成功] 已保存为: $target_jpg\033[0m"
+      else
+        echo -e "\033[31m[失败] 无法下载 (可能是ID错误或服务器无此图片)\033[0m"
+        [ -f "$target_jpg" ] && rm "$target_jpg"
+      fi
+    else
+      echo "跳过: $file (封面图已存在)"
+    fi
+  fi
+done
+
+echo "------------------------------------------------"
+echo "所有任务已完成。"
