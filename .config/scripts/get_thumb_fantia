@@ -13,7 +13,7 @@ if [[ -z "$FANTIA_SESSION_ID" ]]; then
   exit 1
 fi
 
-for file in fantia-*.mp4; do
+for file in fantia-*.; do
   filename_base="${file%.*}"
   id_tmp="${filename_base#fantia-}"
   if [[ "$id_tmp" =~ ^[0-9]{4,7} ]]; then
