@@ -1,5 +1,9 @@
 [mgr]
 prepend_keymap = [
+  { on = [
+    "g",
+    "m",
+  ], run = "cd /mnt", desc = "Go to /mnt" },
   { on = "<C-g>", run = "shell --block 'lazygit'", desc = "run lazygit" },
   { on = ":", run = "shell '$SHELL' --block", desc = "run shell in subthread" },
   { on = [
