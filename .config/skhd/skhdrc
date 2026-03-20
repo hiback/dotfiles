@@ -12,22 +12,28 @@ cmd + ctrl - r: yabai -m space --rotate 90
 cmd + ctrl - 0x18: yabai -m space --balance #=
 
 # Focus window
-cmd - h: yabai -m window --focus west
+cmd - h: yabai -m window --focus stack.prev || yabai -m window --focus west
 cmd - j: yabai -m window --focus south
 cmd - k: yabai -m window --focus north
-cmd - l: yabai -m window --focus east
+cmd - l: yabai -m window --focus stack.next || yabai -m window --focus east
 
 # Move window
-cmd + shift - h: yabai -m window --swap west
-cmd + shift - j: yabai -m window --swap south
-cmd + shift - k: yabai -m window --swap north
-cmd + shift - l: yabai -m window --swap east
+cmd + shift - h: yabai -m window --warp west
+cmd + shift - j: yabai -m window --warp south
+cmd + shift - k: yabai -m window --warp north
+cmd + shift - l: yabai -m window --warp east
 
 # Resize window
 cmd - left: yabai -m window --resize left:-50:0 ; yabai -m window --resize right:-50:0
 cmd - right: yabai -m window --resize right:50:0 ; yabai -m window --resize left:50:0
 cmd - up: yabai -m window --resize top:0:-50 ; yabai -m window --resize bottom:0:-50
 cmd - down: yabai -m window --resize bottom:0:50 ; yabai -m window --resize top:0:50
+
+# Stack window
+cmd + ctrl - h : yabai -m window --stack west
+cmd + ctrl - j : yabai -m window --stack south
+cmd + ctrl - k : yabai -m window --stack north
+cmd + ctrl - l : yabai -m window --stack east
 
 # Move window to space
 cmd + shift - 0x2E: yabai -m window --space 1; yabai -m space --focus 1
