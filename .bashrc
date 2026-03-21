@@ -3,6 +3,9 @@
 
 export EDITOR="nvim"
 
+# PATH
+export PATH="$PATH:$HOME/.config/scripts"
+
 # alias
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
@@ -23,7 +26,7 @@ function y() {
 eval "$(mise activate bash)"
 
 # try-rs integration
-source '/home/hiback/.config/try-rs/try-rs.bash'
+source "$HOME/.config/try-rs/try-rs.bash"
 
 # starship
 eval "$(starship init bash)"
