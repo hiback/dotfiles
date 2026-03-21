@@ -1,0 +1,38 @@
+#!/bin/bash
+# Show a fuzzy-finder TUI for picking installed packages to uninstall.
+
+deps_cmd='pactree -r {1} 2>/dev/null || echo "No reverse dependencies"'
+info_cmd='pacman -Qi {1}'
+files_cmd='pacman -Ql {1} | awk "{print \$2}"'
+
+fzf_args=(
+  --multi
+  --preview "$deps_cmd"
+  --preview-label='alt-p: toggle description, alt-i/I: toggle pkg info, alt-f: files, alt-j/k: scroll, tab: multi-select'
+  --preview-label-pos='bottom'
+  --preview-window 'down:65%:wrap'
+  --bind 'alt-p:toggle-preview'
+  --bind 'alt-d:preview-half-page-down,alt-u:preview-half-page-up'
+  --bind 'alt-k:preview-up,alt-j:preview-down'
+  --bind "alt-I:change-preview:$deps_cmd"
+  --bind "alt-i:change-preview:$info_cmd"
+  --bind "alt-f:change-preview:$files_cmd"
+  --color 'pointer:red,marker:red'
+)
+
+pkg_names=$(pacman -Qq | fzf "${fzf_args[@]}")
+
+if [[ -z $pkg_names ]]; then
+  echo "No packages selected."
+  exit 0
+fi
+
+echo -e "\033[1;31mThe following packages will be removed:\033[0m"
+echo "$pkg_names" | sed 's/^/  /'
+echo
+read -r -p "Confirm removal? [y/N] " answer
+if [[ $answer =~ ^[Yy]$ ]]; then
+  echo "$pkg_names" | tr '\n' ' ' | xargs sudo pacman -Rns
+else
+  echo "Cancelled."
+fi
