@@ -1,0 +1,24 @@
+set editing-mode vi
+
+# Cursor shape: beam for insert, block for normal
+set vi-ins-mode-string \1\e[6 q\2
+set vi-cmd-mode-string \1\e[2 q\2
+set show-mode-in-prompt on
+
+# Reduce Esc delay
+set keyseq-timeout 25
+
+# Completion
+set show-all-if-ambiguous on
+set completion-ignore-case on
+set colored-stats on
+set mark-symlinked-directories on
+set visible-stats on
+
+# Keep Ctrl-l working in vi insert mode
+set keymap vi-insert
+Control-l: clear-screen
+
+# Arrow keys search history by what you've typed so far
+"\e[A": history-search-backward
+"\e[B": history-search-forward
