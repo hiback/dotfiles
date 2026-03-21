@@ -17,7 +17,12 @@ set -o vi # vi mode
 export PATH="$PATH:$HOME/.config/scripts"
 
 # alias
-alias ls='ls --color=auto'
+alias ls='eza -lh --group-directories-first --icons=auto --time-style="+%y/%m/%d %H:%M"'
+alias lsa='ls -a'
+alias lsg='ls --group --bytes'
+alias lss='eza --group-directories-first --icons=auto'
+alias lt='eza --tree --level=2 --long --icons --git --time-style="+%y/%m/%d %H:%M"'
+alias lta='lt -a'
 alias grep='grep --color=auto'
 alias try='try-rs'
 alias lg='lazygit'
