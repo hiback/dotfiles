@@ -9,6 +9,9 @@ zinit light zsh-users/zsh-autosuggestions
 zinit ice depth=1
 zinit light jeffreytse/zsh-vi-mode
 
+# Load custom functions
+for f in $HOME/.config/sh/*; do source "$f"; done
+
 # Starship
 eval "$(starship init zsh)"
 
