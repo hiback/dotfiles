@@ -22,6 +22,9 @@ alias grep='grep --color=auto'
 alias try='try-rs'
 alias lg='lazygit'
 alias lzd='lazydocker'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
 
 # yazi
 function y() {
