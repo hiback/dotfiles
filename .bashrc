@@ -44,3 +44,19 @@ eval "$(starship init bash)"
 
 # fzf
 eval "$(fzf --bash)"
+
+# zoxide
+eval "$(zoxide init bash)"
+alias cd="zd"
+zd() {
+  if (( $# == 0 )); then
+    builtin cd ~ || return
+  elif [[ -d $1 ]]; then
+    builtin cd "$1" || return
+  else
+    if ! z "$@"; then
+      echo "Error: Directory not found"
+      return 1
+    fi
+  fi
+}
