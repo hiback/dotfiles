@@ -6,6 +6,9 @@ background = 000000
 background-opacity = 0.5
 background-blur = 30
 
+# Shell integration
+shell-integration-features = ssh-env
+
 # Keybinds
 keybind = alt+h=previous_tab
 keybind = alt+l=next_tab
