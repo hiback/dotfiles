@@ -8,7 +8,7 @@ HISTSIZE=32768
 HISTFILESIZE="${HISTSIZE}"
 
 # Source custom functions
-for f in $HOME/.config/bash/*; do source "$f"; done
+for f in $HOME/.config/sh/*; do source "$f"; done
 
 export EDITOR="nvim"
 set -o vi # vi mode
@@ -52,7 +52,7 @@ eval "$(fzf --bash)"
 eval "$(zoxide init bash)"
 alias cd="zd"
 zd() {
-  if (( $# == 0 )); then
+  if (($# == 0)); then
     builtin cd ~ || return
   elif [[ -d $1 ]]; then
     builtin cd "$1" || return
