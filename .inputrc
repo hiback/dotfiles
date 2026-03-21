@@ -14,6 +14,10 @@ set completion-ignore-case on
 set colored-stats on
 set mark-symlinked-directories on
 set visible-stats on
+set match-hidden-files off
+set skip-completed-text on
+set page-completions off
+set completion-prefix-display-length 2
 
 # Keep Ctrl-l working in vi insert mode
 set keymap vi-insert
@@ -22,3 +26,8 @@ Control-l: clear-screen
 # Arrow keys search history by what you've typed so far
 "\e[A": history-search-backward
 "\e[B": history-search-forward
+
+# Tab/Shift+Tab cycle through completion candidates
+TAB: menu-complete
+"\e[Z": menu-complete-backward
+set menu-complete-display-prefix on
