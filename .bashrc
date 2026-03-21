@@ -5,6 +5,7 @@
 for f in $HOME/.config/bash/*; do source "$f"; done
 
 export EDITOR="nvim"
+set -o vi # vi mode
 
 # PATH
 export PATH="$PATH:$HOME/.config/scripts"
@@ -26,6 +27,7 @@ function y() {
 }
 
 # mise
+set +h
 eval "$(mise activate bash)"
 
 # try-rs integration
@@ -33,3 +35,6 @@ source "$HOME/.config/try-rs/try-rs.bash"
 
 # starship
 eval "$(starship init bash)"
+
+# fzf
+eval "$(fzf --bash)"
