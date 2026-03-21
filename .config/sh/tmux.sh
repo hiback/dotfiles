@@ -1,3 +1,12 @@
+_tdl_resolve_ai() {
+  case "$1" in
+  o) echo "opencode" ;;
+  cc) echo "claude" ;;
+  cx) echo "codex" ;;
+  *) echo "$1" ;;
+  esac
+}
+
 # Create a Tmux Dev Layout with editor, ai, and terminal
 # Usage: tdl <o|cc|cx|other_ai> [<second_ai>]
 tdl() {
@@ -14,15 +23,6 @@ tdl() {
   local cli_pane editor_pane ai_pane ai2_pane
   local ai="$1"
   local ai2="$2"
-
-  _tdl_resolve_ai() {
-    case "$1" in
-    o) echo "opencode" ;;
-    cc) echo "claude" ;;
-    cx) echo "codex" ;;
-    *) echo "$1" ;;
-    esac
-  }
 
   ai=$(_tdl_resolve_ai "$ai")
   [[ -n $ai2 ]] && ai2=$(_tdl_resolve_ai "$ai2")
