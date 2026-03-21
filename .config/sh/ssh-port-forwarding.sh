@@ -18,5 +18,11 @@ dip() {
 
 # lip: list active port forwards
 lip() {
-  pgrep -af "ssh.*-L [0-9]+:localhost:[0-9]+" || echo "No active forwards"
+  local ports
+  ports=$(ps -eo args | grep "[s]sh.*-L.*localhost" | grep -oE '[0-9]+:localhost:[0-9]+' | cut -d: -f1)
+  if [[ -n $ports ]]; then
+    echo "$ports"
+  else
+    echo "No active forwards"
+  fi
 }
