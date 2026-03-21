@@ -15,7 +15,6 @@ tdl() {
   local ai="$1"
   local ai2="$2"
 
-  # Resolve AI command aliases
   _tdl_resolve_ai() {
     case "$1" in
     o) echo "opencode" ;;
@@ -28,16 +27,21 @@ tdl() {
   ai=$(_tdl_resolve_ai "$ai")
   [[ -n $ai2 ]] && ai2=$(_tdl_resolve_ai "$ai2")
 
-  # Current pane becomes the CLI pane (top)
-  cli_pane="$TMUX_PANE"
+  # Current pane becomes the left side
+  editor_pane="$TMUX_PANE"
 
-  tmux rename-window -t "$cli_pane" "$(basename "$current_dir")"
+  tmux rename-window -t "$editor_pane" "$(basename "$current_dir")"
 
-  # Split CLI pane vertically - CLI stays on top 15%, bottom 85%
-  editor_pane=$(tmux split-window -v -p 85 -t "$cli_pane" -c "$current_dir" -P -F '#{pane_id}')
-
-  # Split editor pane horizontally - AI on right 30%
+  # Split horizontally first - AI on right 30% (full height)
   ai_pane=$(tmux split-window -h -p 30 -t "$editor_pane" -c "$current_dir" -P -F '#{pane_id}')
+
+  # Split left side vertically - CLI on top 15%, nvim below 85%
+  cli_pane=$(tmux split-window -v -p 85 -t "$editor_pane" -c "$current_dir" -P -F '#{pane_id}')
+  # After split: editor_pane = top (CLI), cli_pane = bottom (nvim)
+  # Swap names to match intent
+  local tmp="$editor_pane"
+  editor_pane="$cli_pane"
+  cli_pane="$tmp"
 
   if [[ -n $ai2 ]]; then
     ai2_pane=$(tmux split-window -v -t "$ai_pane" -c "$current_dir" -P -F '#{pane_id}')
