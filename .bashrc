@@ -1,6 +1,9 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# Source custom functions
+for f in $HOME/.config/bash/*; do source "$f"; done
+
 export EDITOR="nvim"
 
 # PATH
