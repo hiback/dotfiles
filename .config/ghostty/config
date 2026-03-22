@@ -10,10 +10,8 @@ background-blur = 30
 shell-integration-features = ssh-env
 
 # Keybinds
-keybind = alt+h=previous_tab
-keybind = alt+l=next_tab
-keybind = alt+shift+h=move_tab:-1
-keybind = alt+shift+l=move_tab:1
+keybind = ctrl+shift+h=move_tab:-1
+keybind = ctrl+shift+l=move_tab:1
 
 # Shaders
 custom-shader = shaders/cursor_smear.glsl
