@@ -15,7 +15,12 @@ config.adjust_window_size_when_changing_font_size = false
 config.default_domain = "WSL:Ubuntu-24.04"
 
 -- Background image
-config.window_background_image = "C:/Users/u0776047/Documents/_home/images/bg.png"
+config.background = {
+	{
+		source = { File = "C:/Users/u0776047/Documents/_home/images/webgradients-night-call.png" },
+		hsb = { brightness = 0.05 },
+	},
+}
 
 -- key bindings
 config.keys = {
@@ -37,7 +42,7 @@ config.keys = {
 	{
 		key = "t",
 		mods = "CTRL|ALT",
-		action = wezterm.action.SpawnTab({ DomainName = "WSL:Debian" }),
+		action = wezterm.action.SpawnTab({ DomainName = "WSL:archlinux" }),
 	},
 	{
 		key = "w",
@@ -46,74 +51,24 @@ config.keys = {
 	},
 	{
 		key = "h",
-		mods = "ALT",
+		mods = "CTRL|SHIFT",
 		action = wezterm.action.ActivateTabRelative(-1),
 	},
 	{
 		key = "l",
-		mods = "ALT",
+		mods = "CTRL|SHIFT",
 		action = wezterm.action.ActivateTabRelative(1),
 	},
 	{
-		key = "h",
-		mods = "ALT|SHIFT",
+		key = "k",
+		mods = "CTRL|SHIFT",
 		action = wezterm.action.MoveTabRelative(-1),
 	},
 	{
-		key = "l",
-		mods = "ALT|SHIFT",
+		key = "j",
+		mods = "CTRL|SHIFT",
 		action = wezterm.action.MoveTabRelative(1),
 	},
-	-- {
-	-- 	key = "/",
-	-- 	mods = "SHIFT|CTRL",
-	-- 	action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
-	-- },
-	-- {
-	-- 	key = '"',
-	-- 	mods = "SHIFT|CTRL",
-	-- 	action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
-	-- },
-	-- {
-	-- 	key = "h",
-	-- 	mods = "CTRL|ALT",
-	-- 	action = wezterm.action.ActivatePaneDirection("Left"),
-	-- },
-	-- {
-	-- 	key = "l",
-	-- 	mods = "CTRL|ALT",
-	-- 	action = wezterm.action.ActivatePaneDirection("Right"),
-	-- },
-	-- {
-	-- 	key = "j",
-	-- 	mods = "CTRL|ALT",
-	-- 	action = wezterm.action.ActivatePaneDirection("Down"),
-	-- },
-	-- {
-	-- 	key = "k",
-	-- 	mods = "CTRL|ALT",
-	-- 	action = wezterm.action.ActivatePaneDirection("Up"),
-	-- },
-	-- {
-	-- 	key = "LeftArrow",
-	-- 	mods = "CTRL|ALT",
-	-- 	action = wezterm.action.AdjustPaneSize({ "Left", 5 }),
-	-- },
-	-- {
-	-- 	key = "RightArrow",
-	-- 	mods = "CTRL|ALT",
-	-- 	action = wezterm.action.AdjustPaneSize({ "Right", 5 }),
-	-- },
-	-- {
-	-- 	key = "UpArrow",
-	-- 	mods = "CTRL|ALT",
-	-- 	action = wezterm.action.AdjustPaneSize({ "Up", 5 }),
-	-- },
-	-- {
-	-- 	key = "DownArrow",
-	-- 	mods = "CTRL|ALT",
-	-- 	action = wezterm.action.AdjustPaneSize({ "Down", 5 }),
-	-- },
 }
 -- right click to copy and paste
 config.mouse_bindings = {
