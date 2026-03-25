@@ -1,6 +1,6 @@
 #!/bin/sh
 
-FONT_FACE="JetBrainsMono Nerd Font"
+FONT_FACE="JetBrainsMonoNL Nerd Font"
 
 PLUGINS_COMMON_DIR="$CONFIG_DIR/plugins-common"
 PLUGINS_LAPTOP_DIR="$CONFIG_DIR/plugins-laptop"
