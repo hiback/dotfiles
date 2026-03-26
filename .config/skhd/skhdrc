@@ -47,6 +47,6 @@ cmd + ctrl - t : yabai -m window --toggle float
 cmd + ctrl - s : yabai -m window --toggle sticky
 
 ##### macism #####
-f13 : macism com.apple.keylayout.ABC
+f13 : macism com.apple.keylayout.US
 f14 : macism com.apple.inputmethod.SCIM.ITABC
 f15 : macism com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese
