@@ -1,14 +1,14 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:mount"
-rev = "19dc890"
-hash = "4fccaaf10c36dc2466e2438a386ff017"
+rev = "1db18bb"
+hash = "e3260d0b1feded8c8e3ae3afa1169e30"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "19dc890"
-hash = "5b2eb0cc2050cec1e4de83cfa51a5b90"
+rev = "1db18bb"
+hash = "f0c8c378184d5f8abd1b095a443d336d"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-mocha"
-rev = "3edeb49"
-hash = "14b111562c00eb1917fe3ca3ae9bb771"
+rev = "0670801"
+hash = "7dfe41c9c3d9be76da8a844263d0bbed"
