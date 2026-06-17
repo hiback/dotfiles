@@ -15,8 +15,8 @@ for f in $HOME/.config/sh/*; do source "$f"; done
 # Starship
 eval "$(starship init zsh)"
 
-# fnm
-eval "$(fnm env --use-on-cd --shell zsh)"
+# Mise
+eval "$(mise activate zsh)"
 
 # fzf
 source <(fzf --zsh)
@@ -73,6 +73,3 @@ if grep -qi microsoft /proc/sys/kernel/osrelease || [ -n "$WSL_DISTRO_NAME" ]; t
     cd "/mnt/c/Users/$(cmd.exe /C "echo %USERNAME%" | tr -d "\r")/Documents/_home"
   }
 fi
-
-# Kitty ssh solution
-[ "$TERM" = "xterm-kitty" ] && alias ssh="kitty +kitten ssh"
