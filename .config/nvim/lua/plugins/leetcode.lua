@@ -19,8 +19,8 @@ return {
     arg = "leet",
     ---@type lc.storage
     storage = {
-      home = "~/code/leetcode",
-      cache = "~/code/leetcode/.cache",
+      home = "~/work/leetcode",
+      cache = "~/work/leetcode/.cache",
     },
   },
 }
