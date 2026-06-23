@@ -20,7 +20,6 @@ export PATH="$PATH:$HOME/.config/scripts"
 if command -v eza &>/dev/null; then
   alias ls='eza -lh --group-directories-first --icons=auto --time-style="+%y/%m/%d %H:%M"'
   alias lsa='ls -a'
-  alias lsg='ls --group --bytes'
   alias lss='eza --group-directories-first --icons=auto'
   alias lt='eza --tree --level=2 --long --icons --git --time-style="+%y/%m/%d %H:%M"'
   alias lta='lt -a'
