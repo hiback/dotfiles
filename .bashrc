@@ -17,12 +17,14 @@ set -o vi # vi mode
 export PATH="$PATH:$HOME/.config/scripts"
 
 # alias
-alias ls='eza -lh --group-directories-first --icons=auto --time-style="+%y/%m/%d %H:%M"'
-alias lsa='ls -a'
-alias lsg='ls --group --bytes'
-alias lss='eza --group-directories-first --icons=auto'
-alias lt='eza --tree --level=2 --long --icons --git --time-style="+%y/%m/%d %H:%M"'
-alias lta='lt -a'
+if command -v eza &>/dev/null; then
+  alias ls='eza -lh --group-directories-first --icons=auto --time-style="+%y/%m/%d %H:%M"'
+  alias lsa='ls -a'
+  alias lsg='ls --group --bytes'
+  alias lss='eza --group-directories-first --icons=auto'
+  alias lt='eza --tree --level=2 --long --icons --git --time-style="+%y/%m/%d %H:%M"'
+  alias lta='lt -a'
+fi
 alias grep='grep --color=auto'
 alias try='try-rs'
 alias lg='lazygit'
@@ -35,13 +37,15 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 
 # yazi
-function y() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-  command yazi "$@" --cwd-file="$tmp"
-  IFS= read -r -d '' cwd <"$tmp"
-  [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
-  rm -f -- "$tmp"
-}
+if command -v yazi &>/dev/null; then
+  function y() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+    command yazi "$@" --cwd-file="$tmp"
+    IFS= read -r -d '' cwd <"$tmp"
+    [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+    rm -f -- "$tmp"
+  }
+fi
 
 # mise
 set +h
@@ -51,23 +55,29 @@ eval "$(mise activate bash)"
 source "$HOME/.config/try-rs/try-rs.bash"
 
 # starship
-eval "$(starship init bash)"
+if command -v fzf &>/dev/null; then
+  eval "$(starship init bash)"
+fi
 
 # fzf
-eval "$(fzf --bash)"
+if command -v fzf &>/dev/null; then
+  eval "$(fzf --bash)"
+fi
 
 # zoxide
-eval "$(zoxide init bash)"
-alias cd="zd"
-zd() {
-  if (($# == 0)); then
-    builtin cd ~ || return
-  elif [[ -d $1 ]]; then
-    builtin cd "$1" || return
-  else
-    if ! z "$@"; then
-      echo "Error: Directory not found"
-      return 1
+if command -v zoxide &>/dev/null; then
+  eval "$(zoxide init bash)"
+  alias cd="zd"
+  zd() {
+    if (($# == 0)); then
+      builtin cd ~ || return
+    elif [[ -d $1 ]]; then
+      builtin cd "$1" || return
+    else
+      if ! z "$@"; then
+        echo "Error: Directory not found"
+        return 1
+      fi
     fi
-  fi
-}
+  }
+fi
