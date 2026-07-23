@@ -8,6 +8,11 @@ use = "yazi-rs/plugins:chmod"
 rev = "1db18bb"
 hash = "f0c8c378184d5f8abd1b095a443d336d"
 
+[[plugin.deps]]
+use = "aresler/path-from-root"
+rev = "3daa62f"
+hash = "f3375d21ceb5f49d2d50ad199262006a"
+
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-mocha"
 rev = "0670801"

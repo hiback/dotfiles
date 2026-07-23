@@ -19,4 +19,8 @@ prepend_keymap = [
     "c",
     "m",
   ], run = "plugin chmod", desc = "Chmod on selected files" },
+  { on = [
+    "c",
+    "g",
+  ], run = "plugin path-from-root", desc = "Copies path from git root" },
 ]
