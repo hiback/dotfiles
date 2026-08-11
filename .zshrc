@@ -13,16 +13,34 @@ zinit light jeffreytse/zsh-vi-mode
 for f in $HOME/.config/sh/*; do source "$f"; done
 
 # Starship
-eval "$(starship init zsh)"
+if command -v starship &> /dev/null; then
+  eval "$(starship init zsh)"
+fi
 
 # Mise
-eval "$(mise activate zsh)"
+if command -v mise &> /dev/null; then
+  eval "$(mise activate zsh)"
+fi
 
 # fzf
-source <(fzf --zsh)
+if command -v fzf &> /dev/null; then
+  source <(fzf --zsh)
+fi
 
 # zoxide
-eval "$(zoxide init zsh)"
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+  alias cd="zd"
+  zd() {
+    if [ $# -eq 0 ]; then
+      builtin cd ~ && return
+    elif [ -d "$1" ]; then
+      builtin cd "$1"
+    else
+      z "$@" && printf "\U000F17A9 " && pwd || echo "Error: Directory not found"
+    fi
+  }
+fi
 
 # yazi
 function y() {
@@ -50,26 +68,7 @@ if command -v eza &> /dev/null; then
   alias lt='eza --tree --level=2 --long --icons --git'
   alias lta='lt -a'
 fi
-if command -v zoxide &> /dev/null; then
-  alias cd="zd"
-  zd() {
-    if [ $# -eq 0 ]; then
-      builtin cd ~ && return
-    elif [ -d "$1" ]; then
-      builtin cd "$1"
-    else
-      z "$@" && printf "\U000F17A9 " && pwd || echo "Error: Directory not found"
-    fi
-  }
-fi
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 
-# Wsl alias
-if grep -qi microsoft /proc/sys/kernel/osrelease || [ -n "$WSL_DISTRO_NAME" ]; then
-  win() {
-    cd /mnt/c/ # Cd to win directory frist to avoid error runing cmd.exe
-    cd "/mnt/c/Users/$(cmd.exe /C "echo %USERNAME%" | tr -d "\r")/Documents/_home"
-  }
-fi
