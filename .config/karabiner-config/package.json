@@ -1,0 +1,17 @@
+{
+  "name": "karabiner-config",
+  "description": "karabiner config in karabiner.ts",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit --module nodenext --moduleResolution nodenext --target es2022 src/index.ts",
+    "update": "npm update karabiner.ts karabiner.ts-greg-mods"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "karabiner.ts": "latest",
+    "karabiner.ts-greg-mods": "^0.8.2",
+    "tsx": "^4",
+    "typescript": "^5"
+  }
+}
