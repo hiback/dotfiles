@@ -125,15 +125,16 @@ if [ "$OS" = "mac" ]; then
   # fonts
   brew install --cask font-jetbrains-mono
   brew install --cask font-jetbrains-mono-nerd-font
-  # JankyBorders
-  brew tap FelixKratz/formulae # For JankyBorders and Sketchybar
-  brew install borders
-  # Sketchybar for custom menu bar
-  brew install sketchybar
+  # Formulae from non-official taps are installed by fully qualified name, which
+  # trusts only that formula rather than the whole tap. Homebrew 6.0.0 refuses to
+  # load an untrusted tap, so a short name here would fail.
+  # JankyBorders and Sketchybar for the custom menu bar
+  brew install FelixKratz/formulae/borders FelixKratz/formulae/sketchybar
   brew install ifstat # For network speed module
   # Yabai for tiling window management, driven by skhd hotkeys
-  brew tap koekeishiya/formulae
-  brew install yabai skhd
+  brew install koekeishiya/formulae/yabai koekeishiya/formulae/skhd
+  # macism for input source switching, used by skhdrc and im-select.nvim
+  brew install laishulu/homebrew/macism
   # Terminal emulators
   brew install --cask kitty
   brew install --cask ghostty
