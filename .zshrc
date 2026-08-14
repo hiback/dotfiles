@@ -52,6 +52,12 @@ function y() {
 	rm -f -- "$tmp"
 }
 
+# try-rs
+if command -v try-rs &> /dev/null; then
+  alias try="try-rs"
+  source '/Users/hiback/Library/Application Support/try-rs/try-rs.zsh'
+fi
+
 # Envs
 export EDITOR="nvim"
 export PATH="$HOME/.config/scripts:$PATH"
@@ -71,4 +77,3 @@ fi
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
-
