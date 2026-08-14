@@ -1,8 +1,10 @@
 # System
 .DS_Store
 
-# Raycast
+# Applications
 .config/raycast
+.config/tmux/plugins/tpm
+
 
 # Background images
 .config/background
