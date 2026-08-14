@@ -44,8 +44,7 @@ echo "Running on $OS"
 # Apt packages
 if [ "$OS" = "linux" ]; then
   ulimit -n 4096
-  sudo apt install build-essential git zsh -y
-  sudo chsh -s $(which zsh) $(whoami)
+  sudo apt install build-essential git curl -y
 fi
 
 # Install Homebrew
@@ -55,17 +54,16 @@ if [[ "$OS" = "mac" ]]; then
   echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>"${HOME}/.zprofile"
   eval "$(/opt/homebrew/bin/brew shellenv)"
 else
-  echo >"${HOME}/.zprofile"
-  echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>"${HOME}/.zprofile"
+  # Persisted by the .bashrc shipped in this repo, so only load it for this run
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 brew install gcc
 
-# Install zinit
-brew install zinit
-
 # Install starship
 brew install starship
+
+# Install mise for runtime version management
+brew install mise
 
 # Install yazi and dependencies
 brew install yazi ffmpeg sevenzip jq poppler fd ripgrep fzf zoxide imagemagick
@@ -73,19 +71,26 @@ brew install yazi ffmpeg sevenzip jq poppler fd ripgrep fzf zoxide imagemagick
 # Install ls alternative
 brew install eza
 
-# Install html parser
-brew install pup
-
-# Install fnm
-brew install fnm
-# Install latest lts node.js
-fnm install --lts
-
 # Install neovim
 brew install neovim
 
-# Install lazygit
-brew install lazygit
+# Install tmux
+brew install tmux
+
+# Install TUIs for git and docker
+brew install lazygit lazydocker
+
+# Install GitHub CLI
+brew install gh
+
+# Install system monitor
+brew install btop
+
+# Install scratch project manager
+brew install try-rs
+
+# Install mkvmerge, required by the vmerge script
+brew install mkvtoolnix
 
 # Install stow
 brew install stow
@@ -97,8 +102,26 @@ cd dotfiles
 stow . --adopt
 git restore .
 
+# The steps below read the configs that stow just linked into place
+
+# Install tpm, required by tmux.conf
+if [ ! -d "${HOME}/.config/tmux/plugins/tpm" ]; then
+  git clone https://github.com/tmux-plugins/tpm "${HOME}/.config/tmux/plugins/tpm"
+fi
+
+# Install the runtimes pinned in .config/mise/config.toml
+mise install
+
+# Install the yazi plugins and flavors pinned in package.toml
+ya pkg install
+
+# Bootstrap LazyVim
+nvim --headless "+Lazy! sync" +qa
+
 # Install GUI packages for macOS
 if [ "$OS" = "mac" ]; then
+  # zinit, the zsh plugin manager sourced by .zshrc
+  brew install zinit
   # fonts
   brew install --cask font-jetbrains-mono
   brew install --cask font-jetbrains-mono-nerd-font
@@ -108,16 +131,22 @@ if [ "$OS" = "mac" ]; then
   # Sketchybar for custom menu bar
   brew install sketchybar
   brew install ifstat # For network speed module
-  # Aerospace for tiling window managment
-  brew install --cask nikitabobko/tap/aerospace
-  # Kitty terminal emulator
+  # Yabai for tiling window management, driven by skhd hotkeys
+  brew tap koekeishiya/formulae
+  brew install yabai skhd
+  # Terminal emulators
   brew install --cask kitty
+  brew install --cask ghostty
 fi
 
 # Finish prompt
 echo
 if [ "$OS" = "mac" ]; then
-  echo -e "${GREEN}Setup done! Please close this terminal and launch kitty to continue.${NC}"
+  echo -e "${GREEN}Setup done! Please close this terminal and launch ghostty to continue.${NC}"
+  echo
+  echo "One manual step is left: yabairc runs 'sudo yabai --load-sa', which needs a"
+  echo "passwordless sudo rule. Run 'sudo visudo -f /etc/sudoers.d/yabai' and follow"
+  echo "https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)"
 else
-  echo -e "${GREEN}Setup done! Please reload this terminal to switch to zsh.${NC}"
+  echo -e "${GREEN}Setup done! Please reload this terminal to pick up the new environment.${NC}"
 fi

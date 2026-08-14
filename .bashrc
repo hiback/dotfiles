@@ -7,6 +7,11 @@ HISTCONTROL=ignoreboth
 HISTSIZE=32768
 HISTFILESIZE="${HISTSIZE}"
 
+# Homebrew
+if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
 # Source custom functions
 for f in $HOME/.config/sh/*; do source "$f"; done
 
