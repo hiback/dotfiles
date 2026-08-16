@@ -2,6 +2,8 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 
+vim.g.lazyvim_php_lsp = "intelephense"
+
 if vim.env.SSH_TTY then
   vim.o.clipboard = "unnamedplus"
   local osc52 = require("vim.ui.clipboard.osc52")
