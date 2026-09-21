@@ -1,0 +1,169 @@
+#!/bin/bash
+
+# =========================================================
+# Script: imgshare
+# Purpose: Produce share-ready images, stripped of metadata
+#          and kept under 5MB, without touching resolution.
+#          - Removes EXIF/GPS/XMP/IPTC and embedded thumbnails
+#          - Always outputs JPEG, next to the source file
+# Usage: imgshare <image1> [image2...]
+# =========================================================
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+
+# Size ceiling for the output
+MAX_SIZE_MB=5
+MAX_SIZE_BYTES=$((MAX_SIZE_MB * 1024 * 1024))
+# Quality cap used when the source is already under the ceiling
+KEEP_QUALITY=92
+
+die() {
+  echo -e "${RED}$1${NC}"
+  read -p "Press Enter to exit"
+  exit 1
+}
+
+# Human-readable byte size
+human() {
+  numfmt --to=iec-i --suffix=B --format="%.1f" "$1" 2>/dev/null || echo "$1 bytes"
+}
+
+echo -e "----------------------------------------"
+
+# 1. Check dependencies
+if ! command -v magick &>/dev/null || ! command -v identify &>/dev/null; then
+  die "Error: magick or identify not found. Please install imagemagick."
+fi
+
+# 2. Check arguments
+if [ "$#" -lt 1 ]; then
+  die "Usage: $(basename "$0") <image1> [image2...]"
+fi
+
+input_files=("$@")
+ok_count=0
+skip_count=0
+fail_count=0
+
+echo -e "${GREEN}Target: strip metadata + under ${MAX_SIZE_MB}MB + keep resolution${NC}"
+echo -e "----------------------------------------"
+
+for file in "${input_files[@]}"; do
+  if [ ! -f "$file" ]; then
+    echo -e "${YELLOW}Skipped: '$file' is not a regular file${NC}"
+    ((skip_count++))
+    continue
+  fi
+
+  # Probe the file: confirms it is a decodable image and yields
+  # its geometry, container format and original JPEG quality.
+  probe=$(identify -quiet -format "%wx%h|%m|%Q" "$file"'[0]' 2>/dev/null)
+  IFS='|' read -r geometry src_format src_quality <<<"$probe"
+  if [ -z "$geometry" ]; then
+    echo -e "${YELLOW}Skipped: $(basename "$file") is not a readable image${NC}"
+    ((skip_count++))
+    continue
+  fi
+
+  in_size=$(stat -c '%s' "$file")
+
+  # Build the output name as <original>-share.jpg, adding a
+  # numeric suffix rather than overwriting an existing file.
+  dir=$(dirname -- "$file")
+  filename=$(basename -- "$file")
+  filename_no_ext="${filename%.*}"
+
+  output_base="${dir}/${filename_no_ext}-share"
+  output_file="${output_base}.jpg"
+  counter=1
+  while [ -e "$output_file" ]; do
+    output_file="${output_base}-${counter}.jpg"
+    ((counter++))
+  done
+
+  echo -e "${CYAN}Processing: ${filename}${NC}"
+  echo "  Source: ${geometry} | $(human "$in_size")"
+
+  # Processing pipeline, order matters:
+  # -auto-orient  bakes the EXIF orientation into the pixels. It must run
+  #               before -strip, otherwise dropping the orientation tag
+  #               leaves portrait shots lying on their side.
+  # -colorspace   -strip also discards the ICC profile, so convert to sRGB
+  #               first to keep wide-gamut images from shifting colour.
+  # -alpha remove flattens transparency onto white, as JPEG has no alpha.
+  # -strip        drops EXIF/GPS/XMP/IPTC and embedded thumbnails. Embedded
+  #               thumbnails matter most: they can retain the pre-crop frame.
+  common_args=(
+    -auto-orient
+    -colorspace sRGB
+    -background white -alpha remove -alpha off
+    -strip
+  )
+
+  if [ "$in_size" -gt "$MAX_SIZE_BYTES" ]; then
+    # Source exceeds the ceiling: binary-search quality towards the target.
+    magick "$file"'[0]' "${common_args[@]}" \
+      -define jpeg:extent=${MAX_SIZE_MB}MB "$output_file" 2>/dev/null
+  else
+    # Source is already small enough, so this pass exists only to strip
+    # metadata. Using extent here would inflate it instead: extent aims
+    # *at* the target size, pushing a small image up towards Q=100.
+    #
+    # Quality is min(source quality, KEEP_QUALITY) to avoid re-encoding a
+    # Q=85 image at Q=92 and growing it for nothing. Only inherited for
+    # JPEG sources; the %Q of a PNG is a compression level, not a quality.
+    target_quality=$KEEP_QUALITY
+    if [ "$src_format" = "JPEG" ] && [ -n "$src_quality" ] &&
+      [ "$src_quality" -lt "$KEEP_QUALITY" ] 2>/dev/null; then
+      target_quality=$src_quality
+    fi
+
+    magick "$file"'[0]' "${common_args[@]}" \
+      -quality "$target_quality" "$output_file" 2>/dev/null
+
+    # Fallback: if stripping somehow pushed it over the ceiling, use extent.
+    if [ -f "$output_file" ] && [ "$(stat -c '%s' "$output_file")" -gt "$MAX_SIZE_BYTES" ]; then
+      magick "$file"'[0]' "${common_args[@]}" \
+        -define jpeg:extent=${MAX_SIZE_MB}MB "$output_file" 2>/dev/null
+    fi
+  fi
+
+  if [ ! -f "$output_file" ]; then
+    echo -e "  ${RED}Failed: no output produced${NC}"
+    ((fail_count++))
+    continue
+  fi
+
+  out_size=$(stat -c '%s' "$output_file")
+  out_q=$(identify -quiet -format "%Q" "$output_file" 2>/dev/null)
+
+  # Verify the result actually landed under the ceiling.
+  if [ "$out_size" -gt "$MAX_SIZE_BYTES" ]; then
+    echo -e "  ${RED}Warning: output $(human "$out_size") still exceeds ${MAX_SIZE_MB}MB${NC}"
+    echo -e "  ${RED}         Cannot reach the target at this resolution; consider downscaling${NC}"
+    ((fail_count++))
+  else
+    echo -e "  ${GREEN}Output: $(basename "$output_file") | $(human "$out_size") | Q=${out_q}${NC}"
+    ((ok_count++))
+  fi
+
+  # Warn on heavy quality loss, but leave the resolution call to the user.
+  if [ -n "$out_q" ] && [ "$out_q" -lt 70 ] 2>/dev/null; then
+    echo -e "  ${YELLOW}Note: quality dropped to Q=${out_q}, compression artifacts may be visible${NC}"
+  fi
+
+  # Growing is normal for small or flat-colour PNGs converted to JPEG.
+  # The output is still kept, since stripping metadata was the point.
+  if [ "$out_size" -ge "$in_size" ]; then
+    echo -e "  ${YELLOW}Note: larger than source ($(human "$in_size") -> $(human "$out_size")), but metadata is stripped${NC}"
+  fi
+done
+
+echo -e "----------------------------------------"
+echo -e "${GREEN}Done: ${ok_count} ok${NC} | ${YELLOW}${skip_count} skipped${NC} | ${RED}${fail_count} failed${NC}"
+read -p "Press Enter to exit"

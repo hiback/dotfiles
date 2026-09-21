@@ -14,6 +14,7 @@ prepend_keymap = [
     "c",
     "p",
   ], run = 'shell --block -- $HOME/.config/scripts/file_compare "$@"', desc = "Compare file size and sha256" },
+  { on = ["c", "s"], run = 'shell --block -- $HOME/.config/scripts/imgshare %s', desc = "Compress images for sharing (<5MB, metadata stripped)" },
   { on = "M", run = "plugin mount", desc = "Mount/umount devices" },
   { on = [
     "c",
