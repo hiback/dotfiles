@@ -9,11 +9,11 @@ prepend_keymap = [
   { on = [
     "m",
     "v",
-  ], run = 'shell --block -- $HOME/.config/scripts/vmerge "$@"', desc = "Merge videos using ffmpeg" },
+  ], run = 'shell --block -- $HOME/.config/scripts/vmerge %s', desc = "Merge videos using ffmpeg" },
   { on = [
     "c",
     "p",
-  ], run = 'shell --block -- $HOME/.config/scripts/file_compare "$@"', desc = "Compare file size and sha256" },
+  ], run = 'shell --block -- $HOME/.config/scripts/file_compare %s', desc = "Compare file size and sha256" },
   { on = ["c", "s"], run = 'shell --block -- $HOME/.config/scripts/imgshare %s', desc = "Compress images for sharing (<5MB, metadata stripped)" },
   { on = "M", run = "plugin mount", desc = "Mount/umount devices" },
   { on = [
